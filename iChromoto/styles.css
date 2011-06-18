@@ -1,0 +1,14 @@
+body{
+	background-color: #323232;
+	color: white;
+	font-family: verdana;
+	font-size: .8em;
+}
+
+img.tall{
+	height: 150px;
+}
+
+img.wide{
+	width: 150px;
+}

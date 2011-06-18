@@ -1,0 +1,15 @@
+{
+    "name": "iChromoto",
+    "version": "0.1",
+    "description": "A nicer, more useful, New Tab page.",
+    "permissions": [
+		"tabs",
+        "<all_urls>",
+		"unlimitedStorage",
+		"bookmarks"
+    ],
+	"background_page": "background.html",
+	"chrome_url_overrides" : {
+		"newtab": "newtab.html"
+	}
+}
