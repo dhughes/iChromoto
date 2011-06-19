@@ -1,26 +1,75 @@
+eventify = new Eventify();
+db = null;
+
 $(document).ready(function(){
-	$("#clear").click(function(){
-		localStorage.clear();
+	getHistory();
+});
+
+getHistory = function(){
+	dbTransaction(function(tx){
+		tx.executeSql(
+			"SELECT domain, dataUrl, max(visitdate) as visitdate, sum(visits) as totalvisits " +
+			"FROM history as h JOIN content as c " +
+				"ON h.url = c.url " +
+			"GROUP BY domain " +
+			"ORDER BY visitdate DESC",
+			[],
+			function(tx, result){
+				eventify.raise("retreivedHistory", {history: result, tx: tx});
+			},
+			log
+		);
 	});
+}
 
-	var history = [];
-	for(var key in localStorage){
-		var data = JSON.parse(localStorage.getItem(key));
+showHistory = function(event){
+	var history = event.getValue("history");
+	console.log(history);
+	for(var i = 0 ; i < history.rows.length ; i++){
+		var row = history.rows.item(i);
+		showDomain(row);
+	}
+}
 
-		data.date = new Date(data.date);
+showDomain = function(data){
+	var canvas = $("<canvas />");
+	canvas.addClass("preview");
+	var ctx = canvas[0].getContext('2d');
 
-		var img = $("<img src='" + data.dataUrl +  "' />");
-
-		var width = img.clientWidth;
-		var height = img.clientHeight;
-
+	// prepare an image
+	var img = new Image();
+	img.src = data.dataUrl;
+	img.onload = function(){
+		
+		var width = event.srcElement.width;
+		var height = event.srcElement.height;
+		// is the image wider or taller?
 		if(width >= height){
-			img.addClass("wide");
+			console.log("wide");
+			// wide - max dimension we WANT is the height
+			var size = height;
+			var offsetX = (width - size)/2;
+			var offsetY = 0;
 		} else {
-			img.addClass("tall");
+			// tall - max dimension we WANT is the width
+			console.log("tall");
+			var size = width;
+			var offsetY = (height - size)/2;
+			var offsetX = 0;
 		}
 
-		$("body").append(img);
+		// draw the image into the canvas
+		console.log("w: " + width);
+		console.log("h: " + height);
+		console.log("offsetX: " + offsetX);
+		console.log("offsetY: " + offsetY);
+		console.log("size: " + size);
 
-	}
-});
+		ctx.drawImage(event.srcElement, offsetX, offsetY, size, size, 0, 0, 300, 150);
+		$(document.body).append(canvas);
+
+	};
+
+}
+
+eventify.listen("retreivedHistory", showHistory);

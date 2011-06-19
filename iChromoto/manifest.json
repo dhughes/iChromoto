@@ -11,5 +11,11 @@
 	"background_page": "background.html",
 	"chrome_url_overrides" : {
 		"newtab": "newtab.html"
-	}
+	},
+	"content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["text.js"]
+    }
+  ]
 }
