@@ -33,20 +33,82 @@ handleRetreivedText = function(event){
 handleScreenshot = function(event){
 	var tab = event.getValue("tab");
 	var dataUrl = event.getValue("dataUrl");
-	var bookmarked = event.getValue("bookmarked");
-	var content = event.getValue("content");
-	console.log(dataUrl);
-	var data = {
-		url: tab.url,
-		title: tab.title,
-		dataUrl: dataUrl,
-		domain: tab.url.split("/")[2],
-		date: new Date(),
-		bookmarked: bookmarked,
-		content: content
-	};
 
-	writeHistory(data);
+	// make an image to hold the dataUrl
+	var img = document.createElement("img");
+	img.src = dataUrl;
+	img.onload = function(){
+		var width = img.width;
+		var height = img.height;
+
+		//console.log("width " + width);
+		//console.log("height " + height);
+
+		// crop the screenshot to remove scroll bars
+
+		// make a canvas slightly smaller than the screenshot
+		var canvas = document.createElement("canvas");
+		canvas.width = width - 16;
+		canvas.height = height - 16;
+
+		// draw the image into the canvas such that the canvas crops out the scroll bars
+		var context = canvas.getContext("2d");
+		context.drawImage(img, 0, 0);
+
+		// reset the image's source to the new data
+		var img2 = document.createElement("img");
+		img2.src = canvas.toDataURL();
+		img2.onload = function(){
+			var width = img2.width;
+			var height = img2.height;
+
+			//console.log("width " + width);
+			//console.log("height " + height);
+			
+			if(width >= height){
+				// wide - max dimension we WANT is the height
+				var scale = 300 / height;
+			} else {
+				// tall - max dimension we WANT is the width
+				var scale = 300 / width;
+			}
+
+			var toWidth = Math.round(width * scale);
+			var toHeight = Math.round(height * scale);
+
+			//console.log("toWidth " +toWidth);
+			//console.log("toheight " + toHeight);
+
+			// resize the screenshot down to 400x400
+			var canvas = document.createElement("canvas");
+			canvas.width = toWidth;
+			canvas.height = toHeight;
+
+			var context = canvas.getContext("2d");
+			context.drawImage(img2, 0, 0, toWidth, toHeight);
+
+			dataUrl = canvas.toDataURL();
+
+			var bookmarked = event.getValue("bookmarked");
+			var content = event.getValue("content");
+
+			var data = {
+				url: tab.url,
+				title: tab.title,
+				dataUrl: dataUrl,
+				width: toWidth,
+				height: toHeight,
+				domain: tab.url.split("/")[2],
+				date: new Date(),
+				bookmarked: bookmarked,
+				content: content
+			};
+
+			writeHistory(data);
+		}
+	}
+
+
 }
 
 writeHistory = function(data){
@@ -72,11 +134,14 @@ handleHistoryExists = function(event){
 		console.log("update");
 		// update the record
 		tx.executeSql(
-			"UPDATE history SET title = ?, dataUrl = ?, visitdate = ?, visits = visits + 1 " +
+			"UPDATE history SET title = ?, dataUrl = ?, width = ?, height = ?, bookmarked = ?, visitdate = ?, visits = visits + 1 " +
 			"WHERE url = ?",
 			[
 				data.title,
 				data.dataUrl,
+				data.width,
+				data.height,
+				data.bookmarked,
 				data.date,
 				data.url
 			],
@@ -98,13 +163,16 @@ handleHistoryExists = function(event){
 		console.log("insert");
 		// insert the record
 		tx.executeSql(
-			"INSERT INTO history (url, domain, title, dataUrl, visitdate, visits) " +
-			"VALUES (?, ?, ?, ?, ?, ?)",
+			"INSERT INTO history (url, domain, title, dataUrl, width, height, bookmarked, visitdate, visits) " +
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 			[
 				data.url,
 				data.domain,
 				data.title,
 				data.dataUrl,
+				data.width,
+				data.height,
+				data.bookmarked,
 				data.date,
 				1
 			],

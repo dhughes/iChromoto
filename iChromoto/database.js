@@ -10,6 +10,9 @@ dbTransaction = function(handler){
 				'   domain TEXT, ' +
 				'   title TEXT, ' +
 				'   dataUrl TEXT, ' +
+				'   width INTEGER, ' +
+				'   height INTEGER, ' +
+				'   bookmarked INTEGER, ' +
 				'   visitdate REAL, ' +
 				'   visits INTEGER ) '
 			);
