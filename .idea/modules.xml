@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Scratch/Scratch.iml" filepath="$PROJECT_DIR$/../Scratch/Scratch.iml" />
       <module fileurl="file://$PROJECT_DIR$/../SearchMark/SearchMark/SearchMark.iml" filepath="$PROJECT_DIR$/../SearchMark/SearchMark/SearchMark.iml" />
       <module fileurl="file://$PROJECT_DIR$/iChromoto/iChromoto.iml" filepath="$PROJECT_DIR$/iChromoto/iChromoto.iml" />
     </modules>

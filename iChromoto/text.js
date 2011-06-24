@@ -10,3 +10,5 @@ chrome.extension.onRequest.addListener(
 		sendResponse(content);
 	}
 );
+
+

@@ -11,6 +11,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
   <component name="Compare Directories">
     <option name="identicalVisible" value="true" />
     <option name="differentVisible" value="true" />
@@ -92,7 +97,7 @@
       <file leaf-file-name="manifest.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="1" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+            <state line="13" column="6" selection-start="299" selection-end="299" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -101,19 +106,35 @@
       <file leaf-file-name="background.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iChromoto/background.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="7" selection-start="429" selection-end="429" vertical-scroll-proportion="-6.0">
+            <state line="3" column="0" selection-start="131" selection-end="131" vertical-scroll-proportion="-2.25">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="iChromoto.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/iChromoto/iChromoto.js">
+      <file leaf-file-name="background.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/iChromoto/background.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="32" selection-start="333" selection-end="333" vertical-scroll-proportion="0.29453015">
-              <folding>
-                <marker date="1308496004000" expanded="true" signature="3101:3136" placeholder="SELECT * FRO..history..." />
-              </folding>
+            <state line="12" column="15" selection-start="338" selection-end="338" vertical-scroll-proportion="0.20843673">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base64.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iChromoto/canvas2image/base64.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="5" selection-start="1067" selection-end="1067" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="md5.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iChromoto/md5.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="16" selection-start="862" selection-end="869" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -121,7 +142,43 @@
       <file leaf-file-name="text.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iChromoto/text.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="45" selection-start="133" selection-end="156" vertical-scroll-proportion="0.0">
+            <state line="10" column="5" selection-start="41" selection-end="552" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Scratch/canvastests/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="1" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="blank.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iChromoto/blank.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="4" selection-start="253" selection-end="253" vertical-scroll-proportion="-5.25">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="blank.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iChromoto/blank.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="0" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Scratch/canvastests/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="35" selection-start="454" selection-end="454" vertical-scroll-proportion="-15.75">
               <folding />
             </state>
           </provider>
@@ -141,22 +198,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../SearchMark/SearchMark/background.html" />
-        <option value="$PROJECT_DIR$/../SearchMark/SearchMark/eventify/eventify.js" />
-        <option value="$PROJECT_DIR$/../SearchMark/SearchMark/eventify/Eventify.js" />
-        <option value="$PROJECT_DIR$/iChromoto/eventify/Eventify.js" />
-        <option value="$PROJECT_DIR$/iChromoto/manifest.json" />
-        <option value="$PROJECT_DIR$/iChromoto/Handler.js" />
-        <option value="$PROJECT_DIR$/iChromoto/Handlers.js" />
-        <option value="$PROJECT_DIR$/iChromoto/text.js" />
-        <option value="$PROJECT_DIR$/iChromoto/Migrator.js" />
-        <option value="$PROJECT_DIR$/iChromoto/log.js" />
-        <option value="$PROJECT_DIR$/iChromoto/background.html" />
-        <option value="$PROJECT_DIR$/iChromoto/database.js" />
-        <option value="$PROJECT_DIR$/iChromoto/iChromoto.js" />
-        <option value="$PROJECT_DIR$/iChromoto/newtab.html" />
         <option value="$PROJECT_DIR$/iChromoto/newtab.js" />
         <option value="$PROJECT_DIR$/iChromoto/styles.css" />
+        <option value="$PROJECT_DIR$/iChromoto/text.js" />
+        <option value="$PROJECT_DIR$/iChromoto/loadHandler.js" />
+        <option value="$PROJECT_DIR$/iChromoto/iChromoto.js" />
+        <option value="$PROJECT_DIR$/iChromoto/backgroundRequest.js" />
+        <option value="$PROJECT_DIR$/iChromoto/manifest.json" />
+        <option value="$PROJECT_DIR$/../Scratch/canvastests/style.css" />
+        <option value="$PROJECT_DIR$/iChromoto/blank.js" />
+        <option value="$PROJECT_DIR$/iChromoto/content_scripts.js" />
+        <option value="$PROJECT_DIR$/iChromoto/md5.js" />
+        <option value="$PROJECT_DIR$/../Scratch/canvastests/index.html" />
+        <option value="$PROJECT_DIR$/iChromoto/canvas2image/base64.js" />
+        <option value="$PROJECT_DIR$/iChromoto/background.html" />
+        <option value="$PROJECT_DIR$/iChromoto/blank.html" />
+        <option value="$PROJECT_DIR$/iChromoto/background.js" />
       </list>
     </option>
   </component>
@@ -201,6 +258,7 @@
     </navigator>
     <panes>
       <pane id="Favorites" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -215,14 +273,51 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Scratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
               <option name="myItemId" value="iChromoto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canvastests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iChromoto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iChromoto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iChromoto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="iChromoto" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="canvas2image" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -239,6 +334,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../Scratch/canvastests" />
       <recent name="$PROJECT_DIR$/iChromoto" />
     </key>
   </component>
@@ -350,22 +446,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="874" extended-state="6" />
+    <frame x="27" y="122" width="1918" height="1383" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="IntelliTail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Compare Directories" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25449318" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39971244" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13804173" sideWeight="0.99921876" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -417,93 +513,101 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../SearchMark/SearchMark/search.html">
+    <entry file="file://$PROJECT_DIR$/iChromoto/newtab.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="5" column="97" selection-start="208" selection-end="301" vertical-scroll-proportion="-3.75" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SearchMark/SearchMark/popup.html">
+    <entry file="file://$PROJECT_DIR$/../Scratch/canvastests/jquery-1.5.1.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../SearchMark/SearchMark/js/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="132" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/Handlers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="7" selection-start="349" selection-end="349" vertical-scroll-proportion="0.29411766" />
+        <state line="29" column="0" selection-start="690" selection-end="690" vertical-scroll-proportion="0.15285714" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SearchMark/SearchMark/background.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="65" selection-start="823" selection-end="833" vertical-scroll-proportion="1.0405406" />
+    <entry file="file://$PROJECT_DIR$/../Scratch/cal_square.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/Migrator.js">
+    <entry file="file://$PROJECT_DIR$/iChromoto/backgroundRequest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="12" selection-start="509" selection-end="513" vertical-scroll-proportion="0.47524753" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/eventify/Eventify.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="709" selection-end="709" vertical-scroll-proportion="-30.692308" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/log.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="1" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/database.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="30" selection-start="424" selection-end="424" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/newtab.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="22" selection-start="791" selection-end="804" vertical-scroll-proportion="-11.25" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="21" selection-start="907" selection-end="907" vertical-scroll-proportion="0.6244842" />
+        <state line="11" column="2" selection-start="325" selection-end="325" vertical-scroll-proportion="0.32719547" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="1" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+        <state line="13" column="6" selection-start="299" selection-end="299" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Scratch/canvastests/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="1" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/text.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="5" selection-start="41" selection-end="552" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/blank.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/canvas2image/base64.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="5" selection-start="1067" selection-end="1067" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/background.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="7" selection-start="429" selection-end="429" vertical-scroll-proportion="-6.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/newtab.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="4" selection-start="4958" selection-end="4958" vertical-scroll-proportion="0.87798035">
+        <state line="3" column="0" selection-start="131" selection-end="131" vertical-scroll-proportion="-2.25">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/text.js">
+    <entry file="file://$PROJECT_DIR$/../Scratch/canvastests/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="45" selection-start="133" selection-end="156" vertical-scroll-proportion="0.0">
+        <state line="21" column="35" selection-start="454" selection-end="454" vertical-scroll-proportion="-15.75">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/iChromoto.js">
+    <entry file="file://$PROJECT_DIR$/iChromoto/blank.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="32" selection-start="333" selection-end="333" vertical-scroll-proportion="0.29453015">
-          <folding>
-            <marker date="1308496004000" expanded="true" signature="3101:3136" placeholder="SELECT * FRO..history..." />
-          </folding>
+        <state line="7" column="4" selection-start="253" selection-end="253" vertical-scroll-proportion="-5.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/content_scripts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="22" selection-start="796" selection-end="796" vertical-scroll-proportion="0.55583125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/md5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="16" selection-start="862" selection-end="869" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/background.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="15" selection-start="338" selection-end="338" vertical-scroll-proportion="0.20843673">
+          <folding />
         </state>
       </provider>
     </entry>

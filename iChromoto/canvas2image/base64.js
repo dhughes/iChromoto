@@ -1,3 +1,4 @@
+
 /* Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
  * Version: 1.0
  * LastModified: Dec 25 1999
@@ -9,7 +10,7 @@
  * b64 = base64encode(data);
  * data = base64decode(b64);
  */
-
+/*
 (function() {
 
 var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -65,14 +66,14 @@ function base64decode(str) {
     i = 0;
     out = "";
     while(i < len) {
-	/* c1 */
+	/* c1 *//*
 	do {
 	    c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
 	} while(i < len && c1 == -1);
 	if(c1 == -1)
 	    break;
 
-	/* c2 */
+	/* c2 *//*
 	do {
 	    c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];
 	} while(i < len && c2 == -1);
@@ -81,7 +82,7 @@ function base64decode(str) {
 
 	out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));
 
-	/* c3 */
+	/* c3 *//*
 	do {
 	    c3 = str.charCodeAt(i++) & 0xff;
 	    if(c3 == 61)
@@ -93,7 +94,7 @@ function base64decode(str) {
 
 	out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));
 
-	/* c4 */
+	/* c4 *//*
 	do {
 	    c4 = str.charCodeAt(i++) & 0xff;
 	    if(c4 == 61)
@@ -110,4 +111,4 @@ function base64decode(str) {
 if (!window.btoa) window.btoa = base64encode;
 if (!window.atob) window.atob = base64decode;
 
-})();
+})();*/
