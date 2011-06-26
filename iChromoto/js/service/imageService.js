@@ -50,7 +50,7 @@ function ImageService(){
 				var context = canvas.getContext("2d");
 				context.drawImage(img2, 0, 0, toWidth, toHeight);
 
-				callback(canvas.toDataURL());
+				callback(canvas.toDataURL(), toWidth, toHeight);
 			}
 		}
 

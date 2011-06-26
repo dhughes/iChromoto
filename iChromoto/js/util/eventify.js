@@ -14,7 +14,7 @@ function Eventify(configPath){
 		]
 	};
 	
-	require(configPath, function(){
+	new Requireify().require([configPath], function(){
 		me.raise("eventify_configLoaded", {eventifyConfig: eventifyConfig});
 	});
 
@@ -70,9 +70,14 @@ function Eventify(configPath){
 	loadController = function(controller, callback){
 		if(controller.obj == undefined){
 			// require this object
-			require(controller.src, function(){
+			new Requireify().require([controller.src], function(){
 				// ok, we've got the script, let's create the object
-				controller.obj = eval("new " + controller.type + "(me)");
+				try{
+					controller.obj = eval("new " + controller.type + "(me)");
+				} catch(e){
+					// disregard
+					console.log(e);
+				}
 
 				callback(controller);
 			});

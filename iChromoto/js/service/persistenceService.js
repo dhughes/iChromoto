@@ -35,15 +35,108 @@ function PersistenceService(){
 	}
 
 	// note: I really don't like having this hidden down at the bottom of this file.
-	require("/js/util/migrator.js", init);
+	new Requireify().require(["/js/util/migrator.js"], init);
 
 	this.checkIfExists = function(url, callback){
 		db.transaction(function(tx){
 			// let's see if we have a record for this url already
-			tx.executeSql("SELECT * FROM history WHERE url = ?", [data.url], function(tx, results){
+			tx.executeSql("SELECT * FROM history WHERE url = ?", [url], function(tx, results){
 				callback(results.rows.length >= 1);
 			});
 		});
+	}
+
+	this.insert = function(url, domain, title, screenshotURL, width, height, bookmarked, text, callback){
+		db.transaction(function(tx){
+			tx.executeSql(
+				"INSERT INTO history (url, domain, title, screenshotURL, width, height, bookmarked, visitdate, visits) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				[
+					url,
+					domain,
+					title,
+					screenshotURL,
+					width,
+					height,
+					bookmarked,
+					new Date(),
+					1
+				],
+				log,
+				log
+			);
+			// insert the text/content
+			tx.executeSql(
+				"INSERT INTO content (url, text) " +
+				"VALUES (?, ?)",
+				[
+					url,
+					text
+				],
+				log,
+				log
+			);
+		});
+
+		callback();
+	}
+
+	this.update = function(url, domain, title, screenshotURL, width, height, bookmarked, text, callback){
+		db.transaction(function(tx){
+			// update the record
+			tx.executeSql(
+				"UPDATE history SET title = ?, screenshotURL = ?, width = ?, height = ?, bookmarked = ?, visitdate = ?, visits = visits + 1 " +
+				"WHERE url = ?",
+				[
+					title,
+					screenshotURL,
+					width,
+					height,
+					bookmarked,
+					new Date(),
+					url
+				],
+				log,
+				log
+			);
+			// update the content/text record
+			tx.executeSql(
+				"UPDATE content SET text = ? " +
+				"WHERE url = ?",
+				[
+					text,
+					url
+				],
+				log,
+				log
+			);
+		});
+		
+		callback();
+	}
+
+	this.getHistory = function(callback){
+		db.transaction(function(tx){
+			tx.executeSql(
+				"SELECT h1.domain, h1.url, h1.screenshotURL, h1.width, h1.height, h2.bookmarked, h2.visitdate, h2.totalvisits " +
+				"FROM history as h1 JOIN ( " +
+				"	SELECT h1.domain, sum(bookmarked) as bookmarked, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
+				"	FROM history as h1 " +
+				"	GROUP BY h1.domain " +
+				") as h2 " +
+				"ON h1.domain = h2.domain " +
+				"ORDER BY h2.visitdate DESC",
+				[],
+				function(tx, result){
+					callback(result);
+				},
+				log
+			);
+		});
+	}
+
+	log = function(msg){
+		//console.log(msg);
 	}
 }
 
