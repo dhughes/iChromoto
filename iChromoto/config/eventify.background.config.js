@@ -13,7 +13,8 @@ eventifyConfig = {
 				{"background_wroteFileToDisk": "prepareToPersist"},
 				{"background_gotBookmarkedStatus": "prepareToPersist"},
 				{"background_gotText": "prepareToPersist"},
-				{"background_readyToPersist": "persist"}
+				{"background_readyToPersist": "persist"},
+				{"background_omniboxChanged": "showSearchResults"}
 			]
 		}
 	]

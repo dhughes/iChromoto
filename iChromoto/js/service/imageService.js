@@ -28,11 +28,9 @@ function ImageService(){
 				var height = img2.height;
 
 				if(width >= height && width > maxDimension){
-					// wide - max dimension we WANT is the height
-					var scale = maxDimension / height;
-				} else if(height > maxDimension) {
-					// tall - max dimension we WANT is the width
 					var scale = maxDimension / width;
+				} else if(height > maxDimension) {
+					var scale = maxDimension / height;
 				} else {
 					// no scaling needed, it's already small
 					callback(image);

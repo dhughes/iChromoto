@@ -19,7 +19,7 @@ function Eventify(configPath){
 	});
 
 	me.raise = function(raisedEventName, values, state){
-		console.log("raised: " + raisedEventName);
+		//console.log("raised: " + raisedEventName);
 
 		// did we get a state object along with this raising?
 		if (state == undefined) {

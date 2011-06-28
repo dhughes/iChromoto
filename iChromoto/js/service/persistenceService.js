@@ -135,6 +135,22 @@ function PersistenceService(){
 		});
 	}
 
+	this.search = function(text, callback){
+		db.transaction(function(tx){
+			tx.executeSql(
+				"SELECT snippet(content) as snippet, h.* " +
+				"FROM content as c JOIN history as h " +
+				"   on c.url = h.url " +
+				"WHERE content MATCH ?",
+				[text],
+				function(tx, result){
+					callback(result);
+				},
+				log
+			);
+		});
+	}
+
 	log = function(msg){
 		//console.log(msg);
 	}

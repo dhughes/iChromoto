@@ -10,7 +10,7 @@ function FileService(){
 
 		// not sure what to put here for storage needs
 		window.requestFileSystem(window.PERSISTENT, 5*1024*1024, function(fs){
-			console.log(filename);
+			//console.log(filename);
 			// I've got the file system, now get the file entry
 			fs.root.getFile(filename, {create: true}, function(fileEntry) {
 				// write to the file

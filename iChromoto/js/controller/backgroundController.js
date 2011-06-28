@@ -22,6 +22,13 @@ function BackgroundController(eventify){
 				eventify.raise("background_tabChanged", {tabId: tabId, windowId: tab.windowId});
 			}
 		});
+
+		chrome.omnibox.onInputChanged.addListener(function(text){
+			chrome.tabs.getSelected(state.windowId, function(tab){
+				eventify.raise("background_omniboxChanged", {text: text, tab: tab});
+			});
+		});
+
 	}
 
 	this.takeScreenshot = function(state){
@@ -86,6 +93,15 @@ function BackgroundController(eventify){
 				//console.log("updated!!");
 			});
 		}
+	}
+
+	this.showSearchResults = function(state){
+		persistenceService.search(state.text, function(matches){
+			chrome.tabs.sendRequest(state.tab.id, {func: "showSearchResults", args: [chrome.extension.getURL("/html/search.html"), matches.rows]}, function(response){
+				// console.log("matches");
+			});
+		});
+
 	}
 
 }

@@ -4,6 +4,7 @@ body{
 	font-family: verdana;
 	font-size: .75em;
 	text-align: center;
+	margin: 0px;
 }
 
 img{
@@ -24,10 +25,15 @@ img{
 	line-height: 200px;
 }
 
-.previewContainer.behind{
-	border: 1px solid red;
-	margin-left: -238px;
-	display: none;
+.previewContainer.wide{
+	width: 400px;
+	height: 300px;
+	max-width: 400px;
+	max-height: 300px;
+}
+
+.previewContainer.wide .previewImageContainer{
+	line-height: 300px;
 }
 
 .previewContainer{
@@ -41,7 +47,7 @@ img{
 	white-space: nowrap;
 	border-radius: 10px;
 	background-color: #000000;
-	box-shadow: 5px 5px 5px #000000;
+	box-shadow: 5px 5px 5px #333333;
 	margin: 4px;
 }
 
@@ -50,3 +56,48 @@ img{
 	margin: 0px 0px -4px 0px;
 }
 
+#toolbar{
+	display:none;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e2e2e2), to(#a4a4a4));
+	height: 35px;
+	line-height: 35px;
+	vertical-align: middle;
+	overflow: hidden;
+	color: #000000;
+	font-size: 13px;
+}
+
+#toolbar .left{
+	float: left;
+	width:200px;
+	height: 100%;
+	text-align: left;
+	margin-left: 5px;
+}
+
+#toolbar .right{
+	float: right;
+	width:200px;
+	height: 100%;
+	text-align: right;
+	margin-right: 5px;
+}
+
+#toolbar .center{
+	margin-left: 210px;
+	margin-right: 210px;
+	height: 100%;
+}
+
+#toolbar button{
+	height: 24px;
+	border: 1px solid black;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fffefc), to(#c0c0c0));
+	padding-top:4px;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+#toolbar button img{
+	margin-top: -4px;
+}

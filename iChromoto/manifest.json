@@ -13,9 +13,10 @@
 		"newtab": "html/newtab.html"
 	},
 	"content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["js/content_scripts.js"]
-    }
-  ]
+		{
+			"matches": ["<all_urls>"],
+			"js": ["js/util/requireify.js", "js/search.js", "js/content_scripts.js"]
+		}
+	],
+	"omnibox": { "keyword" : "ic" }
 }
