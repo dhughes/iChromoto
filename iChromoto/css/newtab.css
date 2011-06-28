@@ -41,6 +41,22 @@ img{
 	margin: 36px;
 }
 
+.previewContainer p{
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.previewContainer p.snippet{
+	overflow: hidden;
+	white-space: normal;
+	font-size: .7em;
+	color: #dddddd;
+}
+
+.previewContainer p.snippet b{
+	color: orange;
+}
+
 .previewImageContainer{
 	vertical-align: middle;
 	text-align: center;

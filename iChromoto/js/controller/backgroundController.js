@@ -1,6 +1,8 @@
 
 function BackgroundController(eventify){
-	
+
+	var disableScreenshots = false;
+
 	new Requireify().require([
 		"/js/service/imageService.js",
 		"/js/service/fileService.js",
@@ -29,13 +31,24 @@ function BackgroundController(eventify){
 			});
 		});
 
+		chrome.omnibox.onInputCancelled.addListener(function(){
+			chrome.tabs.getSelected(state.windowId, function(tab){
+				eventify.raise("background_omniboxCanceled", {tab: tab});
+			});
+		});
+
 	}
 
 	this.takeScreenshot = function(state){
+		if(disableScreenshots){
+			return;
+		}
 		// is the current tabID the same as the tab that was changed?
 		chrome.tabs.getSelected(state.windowId, function(tab){
+			//console.log("take screenshot!!!");
 			if(tab.url.substr(0, 6) != "chrome" && tab != undefined && tab.id == state.tabId){
 				chrome.tabs.captureVisibleTab(state.windowId, {format: "png"}, function(dataUrl){
+					// double check that we're still on the tab we were on before
 					eventify.raise("background_tookScreenshot", {screenshot: dataUrl, tab:tab});
 				});
 			} else if(tab.id != state.tabId){
@@ -54,8 +67,14 @@ function BackgroundController(eventify){
 		// we're going to hash the url and use that as the filename
 		var filename = b64_md5(state.tab.url).replace(/\W/g, "_") + ".png";
 
-		fileService.saveAsFile(state.thumbnail, filename, function(fileUrl){
-			eventify.raise("background_wroteFileToDisk", {fileUrl: fileUrl}, state);
+		chrome.tabs.getSelected(state.windowId, function(tabCheck){
+			if(tabCheck.id = state.tab.id){
+				fileService.saveAsFile(state.thumbnail, filename, function(fileUrl){
+					eventify.raise("background_wroteFileToDisk", {fileUrl: fileUrl}, state);
+				});
+			} else {
+				console.log("changed tab before screenshot was completed!");
+			}
 		});
 	}
 
@@ -75,20 +94,29 @@ function BackgroundController(eventify){
 
 	this.prepareToPersist = function(state){
 		// this function makes sure we have all the data we need to persist the screenshot and data details into the database
-		
-		if(state.fileUrl != undefined && state.isBookMarked != undefined && state.text != undefined){
-			persistenceService.checkIfExists(state.tab.url, function(exists){
-				eventify.raise("background_readyToPersist", {exists: exists}, state);
-			});
-		}
+		chrome.tabs.getSelected(state.windowId, function(tabCheck){
+			if(tabCheck.id = state.tab.id){
+				if(state.fileUrl != undefined && state.isBookMarked != undefined && state.text != undefined){
+					persistenceService.checkIfExists(state.tab.url, function(exists){
+						eventify.raise("background_readyToPersist", {exists: exists}, state);
+					});
+				}
+			} else {
+				console.log("changed tab before screenshot was completed!");
+			}
+		});
+
 	}
 
 	this.persist = function(state){
-		if(!state.exists){ 
+
+		if(!state.exists){
+			//console.log("should insert");
 			persistenceService.insert(state.tab.url, state.tab.url.split("/")[2], state.tab.title, state.fileUrl, state.width, state.height, state.isBookMarked, state.text, function(){
 				//console.log("inserted!!");
 			});
 		} else {
+			//console.log("should update");
 			persistenceService.update(state.tab.url, state.tab.url.split("/")[2], state.tab.title, state.fileUrl, state.width, state.height, state.isBookMarked, state.text, function(){
 				//console.log("updated!!");
 			});
@@ -96,12 +124,13 @@ function BackgroundController(eventify){
 	}
 
 	this.showSearchResults = function(state){
-		persistenceService.search(state.text, function(matches){
-			chrome.tabs.sendRequest(state.tab.id, {func: "showSearchResults", args: [chrome.extension.getURL("/html/search.html"), matches.rows]}, function(response){
-				// console.log("matches");
-			});
-		});
+		disableScreenshots = true;
+		chrome.tabs.sendRequest(state.tab.id, {func: "displaySearch", args: [chrome.extension.getURL("/html/search.html") + "#" + state.text]});
+	}
 
+	this.hideSearch = function(state){
+		chrome.tabs.sendRequest(state.tab.id, {func: "removeSearch", args: []});
+		disableScreenshots = false;
 	}
 
 }

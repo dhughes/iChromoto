@@ -14,7 +14,9 @@ eventifyConfig = {
 				{"background_gotBookmarkedStatus": "prepareToPersist"},
 				{"background_gotText": "prepareToPersist"},
 				{"background_readyToPersist": "persist"},
-				{"background_omniboxChanged": "showSearchResults"}
+				{"background_omniboxChanged": "showSearchResults"},
+				{"background_omniboxCanceled": "hideSearch"}
+
 			]
 		}
 	]

@@ -5,6 +5,50 @@ function UiService(){
 
 	var previewImages = {};
 
+	this.showSearchResults = function(search, results, clickCallback){
+		$(".previewContainer").remove();
+		
+		for(var i = 0 ; i < results.rows.length ; i++){
+			var row = results.rows.item(i);
+			
+			// we always show all search results
+
+			// our image
+			var previewImage = $("<img />");
+			previewImage.addClass("previewImage");
+			previewImage.attr("src", row.screenshotURL);
+			previewImage.attr("title", row.url);
+
+			previewImage.click(function(event){
+				var image = $(event.target);
+				var url = image.parent().attr("title");
+				clickCallback(url);
+			});
+
+			// create the div that holds everything for this domain
+			var previewContainer = $("<div />");
+			previewContainer.addClass("previewContainer");
+			previewContainer.addClass("wide");
+
+			// this is the container that will hold the image
+			var previewImageContainer = $("<div />");
+			previewImageContainer.addClass("previewImageContainer");
+			previewImageContainer.attr("title", row.url);
+
+			// add the preview image container to the preview container
+			previewContainer.append(previewImageContainer);
+
+			// add these things to the document
+			previewContainer.append(previewImageContainer);
+			previewContainer.append("<p>" + row.domain + "</p>");
+			previewContainer.append("<p class='snippet'>" + row.snippet + "</p>");
+
+			previewImageContainer.append(previewImage);
+			previewImageContainer.append("&nbsp;");
+			body.append(previewContainer);
+		}
+	}
+
 	this.showHistory = function(history, mousemoveCallback, mouseresetCallback, clickCallback, doubleClickCallback){
 		// actually remove the preview images from the dom
 		$(".previewContainer").remove();

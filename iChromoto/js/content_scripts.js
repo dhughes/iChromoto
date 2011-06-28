@@ -1,10 +1,3 @@
-chrome.extension.onRequest.addListener(
-	function(request, sender, sendResponse) {
-		var func = eval(request.func);
-		var response = func.apply( this, request.args );
-		sendResponse(response);
-	}
-);
 
 requestText = function(){
 	// get the content of this page

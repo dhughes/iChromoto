@@ -4,7 +4,7 @@ eventifyConfig = {
 			src: "/js/controller/searchController.js",
 			type: "SearchController",
 			listeners: [
-				{"eventify_loaded": "addChromeListeners"}
+				{"search_updatedOmnibox": "search"}
 			]
 		}
 	]

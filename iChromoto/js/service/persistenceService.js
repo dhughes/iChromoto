@@ -59,7 +59,7 @@ function PersistenceService(){
 					width,
 					height,
 					bookmarked,
-					new Date(),
+					now(),
 					1
 				],
 				log,
@@ -93,7 +93,7 @@ function PersistenceService(){
 					width,
 					height,
 					bookmarked,
-					new Date(),
+					now(),
 					url
 				],
 				log,
@@ -125,9 +125,10 @@ function PersistenceService(){
 				"	GROUP BY h1.domain " +
 				") as h2 " +
 				"ON h1.domain = h2.domain " +
-				"ORDER BY h2.visitdate DESC",
+				"ORDER BY strftime(\"%s\", h2.visitdate) DESC",
 				[],
 				function(tx, result){
+					console.log(result);
 					callback(result);
 				},
 				log
@@ -138,7 +139,7 @@ function PersistenceService(){
 	this.search = function(text, callback){
 		db.transaction(function(tx){
 			tx.executeSql(
-				"SELECT snippet(content) as snippet, h.* " +
+				"SELECT snippet(content, '<b>', '</b>', '<b>...</b>', 1, 2) as snippet, h.* " +
 				"FROM content as c JOIN history as h " +
 				"   on c.url = h.url " +
 				"WHERE content MATCH ?",
@@ -153,6 +154,20 @@ function PersistenceService(){
 
 	log = function(msg){
 		//console.log(msg);
+	}
+
+	now = function(){
+		var date = new Date();
+		//alert(zeroPad(date.getMonth()+1,2));
+		return date.getFullYear() + "-" + zeroPad(date.getMonth()+1,2) + "-" + zeroPad(date.getDate(), 2) + " " + zeroPad(date.getHours(), 2) + ":" + zeroPad(date.getMinutes(),2) + ":" + zeroPad(date.getSeconds(),2)
+	}
+
+	zeroPad = function(num,count){
+		var numZeropad = num + '';
+		while(numZeropad.length < count) {
+			numZeropad = "0" + numZeropad;
+		}
+		return numZeropad;
 	}
 }
 

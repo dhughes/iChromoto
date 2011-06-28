@@ -15,7 +15,7 @@
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],
-			"js": ["js/util/requireify.js", "js/search.js", "js/content_scripts.js"]
+			"js": ["js/util/backgroundRequestHandler.js","js/content_scripts.js","js/displaySearch.js"]
 		}
 	],
 	"omnibox": { "keyword" : "ic" }
