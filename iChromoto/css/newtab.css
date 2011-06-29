@@ -21,6 +21,20 @@ img{
 	max-height: 200px;
 }
 
+.previewContainer.small img.bookmark{
+	position: relative;
+	left: -30px;
+	top: 80px;
+	z-index: 10;
+}
+
+.previewContainer.wide img.bookmark{
+	position: relative;
+	left: -30px;
+	top: 130px;
+	z-index: 10;
+}
+
 .previewContainer.small .previewImageContainer{
 	line-height: 200px;
 }

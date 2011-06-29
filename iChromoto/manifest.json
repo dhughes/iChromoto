@@ -12,6 +12,11 @@
 	"chrome_url_overrides" : {
 		"newtab": "html/newtab.html"
 	},
+	"icons": {
+		"16": "img/ichromoto_logo16.png",
+        "48": "img/ichromoto_logo48.png",
+        "128": "img/ichromoto_logo128.png"
+	},
 	"content_scripts": [
 		{
 			"matches": ["<all_urls>"],

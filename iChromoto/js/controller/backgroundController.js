@@ -80,10 +80,25 @@ function BackgroundController(eventify){
 
 	this.getBookmarkedStatus = function(state){
 		// search to see if this is a bookmarked page
-		chrome.bookmarks.search(state.tab.url, function(results){
-			var isBookMarked = (results.length >= 1);
+		// state.tab.url
+		chrome.bookmarks.getTree(function(results){
+			var isBookMarked = searchBookmarks(results, state.tab.url);
 			eventify.raise("background_gotBookmarkedStatus", {isBookMarked: isBookMarked}, state);
 		});
+	}
+
+	// todo: factor this out of this controller.  I don't like this here
+	searchBookmarks = function(bookmarkTreeNode, url){
+		if(bookmarkTreeNode != undefined){
+			for(var i = 0 ; i < bookmarkTreeNode.length ; i++){
+				var node = bookmarkTreeNode[i];
+				// does this url match?
+				if((node.url != undefined && node.url == url) || searchBookmarks(node.children, url)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	this.getTabText = function(state){

@@ -22,6 +22,7 @@ function NewTabController(eventify){
 
 	this.getHistory = function(state){
 		persistenceService.getHistory(function(result){
+			console.log(result);
 			history = result;
 			eventify.raise("newtab_gotHistory", {}, state);
 		});

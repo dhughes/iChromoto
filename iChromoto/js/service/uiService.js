@@ -42,6 +42,13 @@ function UiService(){
 			previewContainer.append(previewImageContainer);
 			previewContainer.append("<p>" + row.domain + "</p>");
 			previewContainer.append("<p class='snippet'>" + row.snippet + "</p>");
+			
+			if(row.bookmarked == 1 && !bookmarked){
+				var star = $("<img />");
+				star.attr("src", "/img/star.png");
+				star.attr("class", "bookmark");
+				previewImageContainer.append(star);
+			}
 
 			previewImageContainer.append(previewImage);
 			previewImageContainer.append("&nbsp;");
@@ -53,8 +60,10 @@ function UiService(){
 		// actually remove the preview images from the dom
 		$(".previewContainer").remove();
 		$("#toolbar").hide();
+		previewImages = {};
 		
 		var lastDomain = "";
+		var bookmarked = false;
 		for(var i = 0 ; i < history.rows.length ; i++){
 			var row = history.rows.item(i);
 			var first = false;
@@ -62,13 +71,16 @@ function UiService(){
 			if(!(row.domain in previewImages)){
 				previewImages[row.domain] = [];
 			}
+
 			previewImages[row.domain].push({
 				screenshotUrl: row.screenshotURL,
-				url: row.url
+				url: row.url,
+				bookmarked: row.bookmarked
 			});
 
 			// though we won't stick them all in the document yet
 			if(lastDomain != row.domain){
+				bookmarked = false;
 				first = true;
 				lastDomain = row.domain;
 
@@ -102,7 +114,6 @@ function UiService(){
 					doubleClickCallback(url);
 				});
 
-
 				// create the div that holds everything for this domain
 				var previewContainer = $("<div />");
 				previewContainer.addClass("previewContainer");
@@ -121,7 +132,16 @@ function UiService(){
 				previewContainer.append("<p>" + row.domain + "</p>");
 				previewImageContainer.append(previewImage);
 				previewImageContainer.append("&nbsp;");
+
 				body.append(previewContainer);
+			}
+
+			if(row.bookmarked == 1 && !bookmarked){
+				bookmarked = true;
+				var star = $("<img />");
+				star.attr("src", "/img/star.png");
+				star.attr("class", "bookmark");
+				previewImageContainer.append(star);
 			}
 		}
 	}
@@ -132,6 +152,7 @@ function UiService(){
 
 		// get the set of thumbnails for this domain
 		var images = previewImages[domain];
+		
 		for(var i = 0 ; i < images.length ; i++){
 			// our image
 			var previewImage = $("<img />");
@@ -161,6 +182,14 @@ function UiService(){
 			previewContainer.append("<p>" + images[i].url + "</p>");
 			previewImageContainer.append(previewImage);
 			previewImageContainer.append("&nbsp;");
+			
+			if(images[i].bookmarked == 1){
+				var star = $("<img />");
+				star.attr("src", "/img/star.png");
+				star.attr("class", "bookmark");
+				previewImageContainer.append(star);
+			}
+
 			body.append(previewContainer);
 		}
 		$("#toolbar div.center").text(domain);

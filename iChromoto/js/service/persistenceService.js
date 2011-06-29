@@ -58,7 +58,7 @@ function PersistenceService(){
 					screenshotURL,
 					width,
 					height,
-					bookmarked,
+					bookmarked ? 1 : 0,
 					now(),
 					1
 				],
@@ -92,7 +92,7 @@ function PersistenceService(){
 					screenshotURL,
 					width,
 					height,
-					bookmarked,
+					bookmarked ? 1 : 0,
 					now(),
 					url
 				],
@@ -118,9 +118,9 @@ function PersistenceService(){
 	this.getHistory = function(callback){
 		db.transaction(function(tx){
 			tx.executeSql(
-				"SELECT h1.domain, h1.url, h1.screenshotURL, h1.width, h1.height, h2.bookmarked, h2.visitdate, h2.totalvisits " +
+				"SELECT h1.domain, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, h1.visitdate, h2.totalvisits " +
 				"FROM history as h1 JOIN ( " +
-				"	SELECT h1.domain, sum(bookmarked) as bookmarked, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
+				"	SELECT h1.domain, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
 				"	FROM history as h1 " +
 				"	GROUP BY h1.domain " +
 				") as h2 " +
