@@ -43,7 +43,7 @@ function UiService(){
 			previewContainer.append("<p>" + row.domain + "</p>");
 			previewContainer.append("<p class='snippet'>" + row.snippet + "</p>");
 			
-			if(row.bookmarked == 1 && !bookmarked){
+			if(row.bookmarked == 1){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
 				star.attr("class", "bookmark");
