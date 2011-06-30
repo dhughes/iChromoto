@@ -7,7 +7,9 @@ function NewTabController(eventify){
 	new Requireify().require([
 		"/js/util/jquery-1.6.1.min.js",
 		"/js/service/persistenceService.js",
-		"/js/service/uiService.js"
+		"/js/service/uiService.js",
+		"/js/util/backgroundRequestHandler.js",
+		"/js/displaySearch.js"
 	], function(){
 		persistenceService = new PersistenceService();
 		uiService = new UiService();

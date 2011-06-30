@@ -42,6 +42,9 @@ function UiService(){
 			previewContainer.append(previewImageContainer);
 			previewContainer.append("<p>" + row.domain + "</p>");
 			previewContainer.append("<p class='snippet'>" + row.snippet + "</p>");
+
+			previewImageContainer.append(previewImage);
+			previewImageContainer.append("&nbsp;");
 			
 			if(row.bookmarked == 1){
 				var star = $("<img />");
@@ -50,8 +53,6 @@ function UiService(){
 				previewImageContainer.append(star);
 			}
 
-			previewImageContainer.append(previewImage);
-			previewImageContainer.append("&nbsp;");
 			body.append(previewContainer);
 		}
 	}

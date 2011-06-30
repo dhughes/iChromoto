@@ -31,12 +31,20 @@ function BackgroundController(eventify){
 			});
 		});
 
+		/*
 		chrome.omnibox.onInputCancelled.addListener(function(){
 			chrome.tabs.getSelected(state.windowId, function(tab){
 				eventify.raise("background_omniboxCanceled", {tab: tab});
 			});
 		});
+		*/
 
+		chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
+			if(request.func == "removeSearch"){
+				chrome.tabs.sendRequest(sender.tab.id, {func: "removeSearch", args: []});
+			}
+
+		});
 	}
 
 	this.takeScreenshot = function(state){
@@ -140,6 +148,7 @@ function BackgroundController(eventify){
 
 	this.showSearchResults = function(state){
 		disableScreenshots = true;
+		//console.log(state.text);
 		chrome.tabs.sendRequest(state.tab.id, {func: "displaySearch", args: [chrome.extension.getURL("/html/search.html") + "#" + state.text]});
 	}
 

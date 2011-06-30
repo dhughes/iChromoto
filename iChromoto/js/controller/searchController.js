@@ -11,7 +11,13 @@ function SearchController(eventify){
 		persistenceService = new PersistenceService();
 		uiService = new UiService();
 
-		//eventify.raise("search_documentReady");
+		$("#search").keydown(function(event){
+			if(event.which == 27){
+				eventify.raise("search_escapePressed");
+			}
+			console.log(event.which);
+		});
+
 		setInterval(function(){
 			var hashPosition = document.location.href.search("#") + 1;
 			if(lastSearch != document.location.href.substr(hashPosition)){
@@ -21,14 +27,21 @@ function SearchController(eventify){
 		},
 		100);
 	});
-	
-	this.search = function(state){
 
+	this.search = function(state){
 		persistenceService.search(state.search, function(matches){
 			uiService.showSearchResults(state.search, matches, function(url){
 				location.href = url;
 			});
 		});
 	}
+
+	this.closeSearch = function(state){
+		// send a message to the background
+		chrome.extension.sendRequest({func: "removeSearch", args: []}, function(response) {
+			//console.log(response.farewell);
+		});
+	}
+
 
 }
