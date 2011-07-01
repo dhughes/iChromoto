@@ -1,8 +1,6 @@
 
 function BackgroundController(eventify){
 
-	var disableScreenshots = false;
-
 	new Requireify().require([
 		"/js/service/imageService.js",
 		"/js/service/fileService.js",
@@ -48,20 +46,24 @@ function BackgroundController(eventify){
 	}
 
 	this.takeScreenshot = function(state){
-		if(disableScreenshots){
-			return;
-		}
 		// is the current tabID the same as the tab that was changed?
 		chrome.tabs.getSelected(state.windowId, function(tab){
-			//console.log("take screenshot!!!");
-			if(tab.url.substr(0, 6) != "chrome" && tab != undefined && tab.id == state.tabId){
-				chrome.tabs.captureVisibleTab(state.windowId, {format: "png"}, function(dataUrl){
-					// double check that we're still on the tab we were on before
-					eventify.raise("background_tookScreenshot", {screenshot: dataUrl, tab:tab});
-				});
-			} else if(tab.id != state.tabId){
-				console.log("Skipped capture since tab is not what was expected.");
-			}
+			// make sure we are not showing the search interface
+			chrome.tabs.sendRequest(tab.id, {func: "isShowingSearch", args: []}, function(showingSearch){
+				if(!showingSearch){
+					//console.log("take screenshot!!!");
+					if(tab.url.substr(0, 6) != "chrome" && tab != undefined && tab.id == state.tabId){
+						chrome.tabs.captureVisibleTab(state.windowId, {format: "png"}, function(dataUrl){
+							// double check that we're still on the tab we were on before
+							eventify.raise("background_tookScreenshot", {screenshot: dataUrl, tab:tab});
+						});
+					} else if(tab.id != state.tabId){
+						console.log("Skipped capture since tab is not what was expected.");
+					}
+				} else {
+					console.log("Showing search, do not take screenshot");
+				}
+			});
 		});
 	}
 
@@ -147,14 +149,12 @@ function BackgroundController(eventify){
 	}
 
 	this.showSearchResults = function(state){
-		disableScreenshots = true;
 		//console.log(state.text);
 		chrome.tabs.sendRequest(state.tab.id, {func: "displaySearch", args: [chrome.extension.getURL("/html/search.html") + "#" + state.text]});
 	}
 
 	this.hideSearch = function(state){
 		chrome.tabs.sendRequest(state.tab.id, {func: "removeSearch", args: []});
-		disableScreenshots = false;
 	}
 
 }

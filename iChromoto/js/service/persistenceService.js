@@ -118,14 +118,14 @@ function PersistenceService(){
 	this.getHistory = function(callback){
 		db.transaction(function(tx){
 			tx.executeSql(
-				"SELECT h1.domain, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, h1.visitdate, h2.totalvisits " +
+				"SELECT h1.domain, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, date(h2.visitdate) as visitdate, h2.totalvisits " +
 				"FROM history as h1 JOIN ( " +
 				"	SELECT h1.domain, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
 				"	FROM history as h1 " +
 				"	GROUP BY h1.domain " +
 				") as h2 " +
 				"ON h1.domain = h2.domain " +
-				"ORDER BY strftime(\"%s\", h2.visitdate) DESC",
+				"ORDER BY h2.visitdate DESC",
 				[],
 				function(tx, result){
 					console.log(result);

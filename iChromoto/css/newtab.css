@@ -14,6 +14,16 @@ img{
 	display: inline;
 }
 
+.previewContainer.lastDay{
+	border-right: 1px solid #545454;
+	padding-right: 35px;
+}
+
+.previewContainer.newDay{
+	border-left: 1px solid #545454;
+	padding-left: 35px;
+}
+
 .previewContainer.small{
 	width: 200px;
 	height: 200px;
@@ -52,7 +62,7 @@ img{
 
 .previewContainer{
 	display: inline-block;
-	margin: 36px;
+	padding: 36px;
 }
 
 .previewContainer p{

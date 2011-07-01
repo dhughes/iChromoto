@@ -31,3 +31,11 @@ removeSearch = function(){
 	iChromodo_documentScroll = null;
 	iChromodo_search = null;
 }
+
+goToUrl = function(url){
+	location.href = url;
+}
+
+isShowingSearch = function(){
+	return (iChromodo_search != null);
+}

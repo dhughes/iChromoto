@@ -64,6 +64,7 @@ function UiService(){
 		previewImages = {};
 		
 		var lastDomain = "";
+		var lastDate = "";
 		var bookmarked = false;
 		for(var i = 0 ; i < history.rows.length ; i++){
 			var row = history.rows.item(i);
@@ -80,7 +81,18 @@ function UiService(){
 			});
 
 			// though we won't stick them all in the document yet
+			var newDay = false;
 			if(lastDomain != row.domain){
+
+				if(row.visitdate != lastDate){
+					var newDay = true;
+					lastDate = row.visitdate;
+					$(".previewContainer:last").addClass("lastDay");
+				}
+
+				console.log(row.visitdate);
+				console.log(lastDate);
+
 				bookmarked = false;
 				first = true;
 				lastDomain = row.domain;
@@ -119,6 +131,9 @@ function UiService(){
 				var previewContainer = $("<div />");
 				previewContainer.addClass("previewContainer");
 				previewContainer.addClass("small");
+				if(i != 0 && newDay){
+					previewContainer.addClass("newDay");
+				}
 
 				// this holds the container that will hold the image
 				var previewImageContainer = $("<div />");

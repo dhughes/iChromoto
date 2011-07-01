@@ -31,7 +31,9 @@ function SearchController(eventify){
 	this.search = function(state){
 		persistenceService.search(state.search, function(matches){
 			uiService.showSearchResults(state.search, matches, function(url){
-				location.href = url;
+				chrome.extension.sendRequest({func: "goToUrl", args: [url]}, function(response) {
+					//console.log(response.farewell);
+				});
 			});
 		});
 	}
