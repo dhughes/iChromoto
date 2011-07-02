@@ -23,5 +23,6 @@
 			"js": ["js/util/backgroundRequestHandler.js","js/content_scripts.js","js/displaySearch.js"]
 		}
 	],
-	"omnibox": { "keyword" : "ic" }
+	"omnibox": { "keyword" : "ic" },
+	"options_page": "html/options.html"
 }

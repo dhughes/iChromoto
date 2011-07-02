@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>iChromoto - Options</title>
+<script type="text/javascript" src="/js/util/requireify.js"></script>
+<script type="text/javascript" src="/js/options.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/newtab.css" />
+<link rel="stylesheet" type="text/css" href="/css/vader/jquery-ui-1.8.13.custom.css" />
+</head>
+<body id="options">
+	<img src="/img/ichromoto_logo128.png" alt="iChromoto" class="logo">
+
+	<h1>iChromoto Settings</h1>
+	<h2>iChromoto is: A nicer, more useful, New Tab page for the Chrome web browser.</h2>
+
+	<br clear="all" />
+
+	<h3>Domain Blacklists</h3>
+
+	<p>You can provide a list of domain names, one per line, that you do not want iChromoto to take screenshots of or
+		track. iChromoto will ignore any pages that fall under the blacklisted domains.  You can use the "*"
+		wildcard character to match sections of the domain name.  For example:
+
+	<ul>
+		<li><strong>example.com</strong> - Will ignore "example.com".  Will not ignore "www.example.com".</li>
+		<li><strong>*.example.com</strong> - Will ignore any subdomain of "example.com".  Will not ignore "example.com".</li>
+		<li><strong>www.example.com</strong> - Will ignore "www.example.com".  Will not ignore "example.com" or "foo.example.com".</li>
+		<li><strong>*.net</strong> - Will ignore any .net domain name.</li>
+	</ul>
+
+	<textarea id="domainBlacklist"></textarea>
+
+	<h3>Regular Expression Blacklists</h3>
+
+	<p>URLs that match the patterns specified, one per line, will not be tracked and no screenshots will be collected.
+		The patterns use <a href="http://en.wikipedia.org/wiki/Regular_expression" target="_blank">regular expression syntax</a>.</p>
+
+	<textarea id="regexBlacklist"></textarea>
+
+	<h3>SSL Settings</h3>
+
+	<label for="noSSL">
+		<input type="checkbox" id="noSSL" value="1"/>
+		Do not take screenshots or track SSL sites.
+	</label>
+
+	<h3>Thumbnail Sizes</h3>
+
+	<div class="thumbnails">
+		<div class="large">
+			<input type="text" id="largeThumbnailSize" value="500" />
+			Large Thumbnail
+		</div>
+		<div class="small">
+			Small Thumbnail
+			<input type="text" id="smallThumbnailSize" value="200" />
+		</div>
+		<br clear="all" />
+
+		<div class="thumbnailSlider"></div>
+		<br clear="all" />
+
+		<img class="small" src="/img/sample.png" style="width: 200px;" />
+		<img class="large" src="/img/sample.png" style="width: 500px;" />
+		<br clear="all" />
+	</div>
+
+</body>
+</html>

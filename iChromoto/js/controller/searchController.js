@@ -6,10 +6,11 @@ function SearchController(eventify){
 	new Requireify().require([
 		"/js/util/jquery-1.6.1.min.js",
 		"/js/service/persistenceService.js",
+		"/js/service/optionsService.js",
 		"/js/service/uiService.js"
 	], function(){
 		persistenceService = new PersistenceService();
-		uiService = new UiService();
+		uiService = new UiService(new OptionsService());
 
 		$("#search").keydown(function(event){
 			if(event.which == 27){

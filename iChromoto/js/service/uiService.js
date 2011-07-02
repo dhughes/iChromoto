@@ -1,5 +1,5 @@
 
-function UiService(){
+function UiService(optionsService){
 
 	var body = $("body");
 
@@ -29,11 +29,17 @@ function UiService(){
 			var previewContainer = $("<div />");
 			previewContainer.addClass("previewContainer");
 			previewContainer.addClass("wide");
+			previewContainer.css("width", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("height", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("max-width", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("max-height", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
 
 			// this is the container that will hold the image
 			var previewImageContainer = $("<div />");
 			previewImageContainer.addClass("previewImageContainer");
 			previewImageContainer.attr("title", row.url);
+			previewImageContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
 
 			// add the preview image container to the preview container
 			previewContainer.append(previewImageContainer);
@@ -50,6 +56,7 @@ function UiService(){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
 				star.attr("class", "bookmark");
+				star.css("top", ((optionsService.getItem("largeThumbnailSize"))/2)-20) + "px";
 				previewImageContainer.append(star);
 			}
 
@@ -131,6 +138,12 @@ function UiService(){
 				var previewContainer = $("<div />");
 				previewContainer.addClass("previewContainer");
 				previewContainer.addClass("small");
+				previewContainer.css("width", optionsService.getItem("smallThumbnailSize") + "px");
+				previewContainer.css("height", optionsService.getItem("smallThumbnailSize") + "px");
+				previewContainer.css("max-width", optionsService.getItem("smallThumbnailSize") + "px");
+				previewContainer.css("max-height", optionsService.getItem("smallThumbnailSize") + "px");
+				previewContainer.css("line-height", optionsService.getItem("smallThumbnailSize") + "px");
+
 				if(i != 0 && newDay){
 					previewContainer.addClass("newDay");
 				}
@@ -138,6 +151,7 @@ function UiService(){
 				// this holds the container that will hold the image
 				var previewImageContainer = $("<div />");
 				previewImageContainer.addClass("previewImageContainer");
+				previewImageContainer.css("line-height", optionsService.getItem("smallThumbnailSize") + "px");
 				previewImageContainer.attr("title", row.domain);
 
 				// add the preview image container to the preview container
@@ -157,6 +171,7 @@ function UiService(){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
 				star.attr("class", "bookmark");
+				star.css("top", (optionsService.getItem("smallThumbnailSize")/2)-20) + "px";
 				previewImageContainer.append(star);
 			}
 		}
@@ -184,11 +199,17 @@ function UiService(){
 			var previewContainer = $("<div />");
 			previewContainer.addClass("previewContainer");
 			previewContainer.addClass("wide");
+			previewContainer.css("width", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("height", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("max-width", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("max-height", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
 
 			// this holds the container that will hold the image
 			var previewImageContainer = $("<div />");
 			previewImageContainer.addClass("previewImageContainer");
 			previewImageContainer.attr("title", images[i].url);
+			previewImageContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
 
 			// add the preview image container to the preview container
 			previewContainer.append(previewImageContainer);
@@ -203,6 +224,7 @@ function UiService(){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
 				star.attr("class", "bookmark");
+				star.css("top", ((optionsService.getItem("largeThumbnailSize"))/2)-20) + "px";
 				previewImageContainer.append(star);
 			}
 
