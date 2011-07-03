@@ -50,7 +50,7 @@ function BackgroundController(eventify){
 		// is the current tabID the same as the tab that was changed?
 		chrome.tabs.getSelected(state.windowId, function(tab){
 			// catch disallowed URLs here
-			if(optionsService.isBlacklisted(tab.url)){return};
+			if(optionsService.isBlocked(tab.url)){return};
 
 			console.log("allowed!!!");
 			// make sure we are not showing the search interface

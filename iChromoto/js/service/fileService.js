@@ -2,6 +2,26 @@
 
 function FileService(){
 
+	this.deleteFiles = function(filesToDelete){
+		// get the filesystem
+		window.requestFileSystem = window.webkitRequestFileSystem;
+
+		window.requestFileSystem(window.PERSISTENT, 5*1024*1024, function(fs){
+			for(var i = 0 ; i < filesToDelete.length ; i++){
+				var file = filesToDelete[i];
+
+				fs.root.getFile(file, {create: false}, function(fileEntry) {
+
+					fileEntry.remove(function() {
+						console.log('removed: ' + fileEntry.name);
+					}, fsErrorHandler);
+
+				}, fsErrorHandler);
+			}
+		}, fsErrorHandler);
+		
+	}
+
 	this.saveAsFile = function(dataURL, filename, callback){
 		dataBlob = dataURItoBlob(dataURL);
 		

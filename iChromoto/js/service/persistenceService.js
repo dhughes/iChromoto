@@ -152,6 +152,70 @@ function PersistenceService(){
 		});
 	}
 
+	this.deleteUrl = function(url, callback){
+
+		db.transaction(function(tx){
+			// find the image file name for the url we're deleting
+			tx.executeSql(
+				"SELECT screenshotURL " +
+				"FROM history " +
+				"WHERE url = ?",
+				[url],
+				function(tx, result){
+					// get the screenshot url
+					var screenshotURL = result.rows.item(0).screenshotURL;
+
+					// delete this row from the DB
+					tx.executeSql(
+						"DELETE FROM history " +
+						"WHERE url = ?",
+						[url],
+						function(tx, result){
+							callback(screenshotURL.split("/").pop());
+						},
+						log
+					);
+				},
+				log
+			);
+
+
+		});
+	}
+
+	this.deleteDomain = function(domain, callback){
+		db.transaction(function(tx){
+			// find all image files for the url we're deleting
+			tx.executeSql(
+				"SELECT screenshotURL " +
+				"FROM history " +
+				"WHERE domain GLOB ? ",
+				[domain],
+				function(tx, result){
+					// create an array of screenshotURLs to return
+					var screenshotURLs = [];
+					for(var i = 0 ; i < result.rows.length ; i++){
+						screenshotURLs.push(result.rows.item(i).screenshotURL.split("/").pop());
+					}
+
+					// delete this domain from the DB
+					tx.executeSql(
+						"DELETE FROM history " +
+						"WHERE domain GLOB ? ",
+						[domain],
+						function(tx, result){
+							callback(screenshotURLs);
+						},
+						log
+					);
+				},
+				log
+			);
+
+
+		});
+	}
+
 	log = function(msg){
 		//console.log(msg);
 	}

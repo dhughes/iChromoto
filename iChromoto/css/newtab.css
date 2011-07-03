@@ -122,6 +122,10 @@ img{
 	z-index: 10;
 }
 
+.previewContainer:hover img.bookmark{
+	left: -40px;
+}
+
 .previewContainer.wide img.block{
 	position: relative;
 	left: -20px;

@@ -5,8 +5,8 @@ function OptionsService(){
 		smallThumbnailSize: 200,
 		largeThumbnailSize: 400,
 		noSSL: false,
-		domainBlacklist: "",
-		regexBlacklist: ""
+		domainBlock: "",
+		regexBlock: ""
 	};
 
 	// set any items missing in localstorage
@@ -16,7 +16,7 @@ function OptionsService(){
 		}
 	}
 
-	this.isBlacklisted = function(url){
+	this.isBlocked = function(url){
 		// if SSL is blocked, check if we're accessing an SSL site.
 		if(this.getItem("noSSL") == "true" && url.substr(0, 5).toLowerCase() == "https"){
 			console.log("ssl blocked: " + url);
@@ -24,9 +24,10 @@ function OptionsService(){
 		}
 
 		// check to see if the domain is blocked
-		var blockedDomains = this.getItem("domainBlacklist").split("\n");
+		var blockedDomains = this.getItem("domainBlock");
+		blockedDomains = blockedDomains.length == 0 ? [] : blockedDomains.split("\n");
 		var domain = url.split("/")[2].split(".");
-		
+		//console.log(blockedDomains);
 		for(var i = 0 ; i < blockedDomains.length ; i++){
 			var blockedDomain = blockedDomains[i].split(".");
 			var blocked = true;
@@ -54,10 +55,12 @@ function OptionsService(){
 		}
 
 		// check to see if the url is blocked by regex
-		var regexBlocks = this.getItem("regexBlacklist").split("\n");
-
+		var regexBlocks = this.getItem("regexBlock");
+		regexBlocks = regexBlocks.length == 0 ? [] : regexBlocks.split("\n");
+		//console.log(regexBlocks);
 		for(var i = 0 ; i < regexBlocks.length ; i++){
 			var regex = regexBlocks[i];
+			
 			try{
 				var pattern = new RegExp(regex);
 				if(url.match(pattern) != null){
@@ -74,11 +77,11 @@ function OptionsService(){
 	}
 
 	this.setItem = function(item, value){
-		localStorage.setItem(item, value);
+		localStorage.setItem(item, value.replace( /^\s+/, "" ).replace( /\s+$/, "" ));
 	}
 
 	this.getItem = function(item){
-		return localStorage.getItem(item);
+		return localStorage.getItem(item).replace( /^\s+/, "" ).replace( /\s+$/, "" );
 	}
 
 }

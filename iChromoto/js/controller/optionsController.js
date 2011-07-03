@@ -16,15 +16,15 @@ function OptionsController(eventify){
 		$("#smallThumbnailSize").val(optionsService.getItem("smallThumbnailSize"));
 		$(".thumbnails img.large").css("width", optionsService.getItem("largeThumbnailSize"));
 		$("#largeThumbnailSize").val(optionsService.getItem("largeThumbnailSize"));
-		$("#domainBlacklist").val(optionsService.getItem("domainBlacklist"));
-		$("#regexBlacklist").val(optionsService.getItem("regexBlacklist"));
+		$("#domainBlock").val(optionsService.getItem("domainBlock"));
+		$("#regexBlock").val(optionsService.getItem("regexBlock"));
 
 		if(optionsService.getItem("noSSL") == "true"){
 			$("#noSSL").prop("checked", "checked");
 		}
 
-		$("#domainBlacklist").val(optionsService.getItem("domainBlacklist"));
-		$("#regexBlacklist").val(optionsService.getItem("regexBlacklist"));
+		$("#domainBlock").val(optionsService.getItem("domainBlock"));
+		$("#regexBlock").val(optionsService.getItem("regexBlock"));
 		
 		// setup the events for the slider
 		$(".thumbnailSlider").slider({
@@ -50,21 +50,21 @@ function OptionsController(eventify){
 			eventify.raise("options_changedSSL", {noSSL: this.checked});
 		});
 
-		// setup events for blacklists
-		$("#domainBlacklist").keyup(function(event){
-			eventify.raise("options_changedDomainBlacklist", {domainBlacklist: $(this).val()});
+		// setup events for Blocks
+		$("#domainBlock").keyup(function(event){
+			eventify.raise("options_changedDomainBlock", {domainBlock: $(this).val()});
 		});
-		$("#regexBlacklist").keyup(function(event){
-			eventify.raise("options_changedRegexBlacklist", {regexBlacklist: $(this).val()});
+		$("#regexBlock").keyup(function(event){
+			eventify.raise("options_changedRegexBlock", {regexBlock: $(this).val()});
 		});
 	});
 
-	this.updateDomainBlacklistSettings = function(state){
-		optionsService.setItem("domainBlacklist", state.domainBlacklist);
+	this.updateDomainBlockSettings = function(state){
+		optionsService.setItem("domainBlock", state.domainBlock);
 	}
 
-	this.updateRegexBlacklistSettings = function(state){
-		optionsService.setItem("regexBlacklist", state.regexBlacklist);
+	this.updateRegexBlockSettings = function(state){
+		optionsService.setItem("regexBlock", state.regexBlock);
 	}
 
 	this.updateNoSSLSetting = function(state){

@@ -6,8 +6,8 @@ eventifyConfig = {
 			listeners: [
 				{"options_changedSSL": "updateNoSSLSetting"},
 				{"options_changedThumbnailSize": "updateThumbnailSettings"},
-				{"options_changedDomainBlacklist": "updateDomainBlacklistSettings"},
-				{"options_changedRegexBlacklist": "updateRegexBlacklistSettings"}
+				{"options_changedDomainBlock": "updateDomainBlockSettings"},
+				{"options_changedRegexBlock": "updateRegexBlockSettings"}
 			]
 		}
 	]

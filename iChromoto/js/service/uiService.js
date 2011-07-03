@@ -1,5 +1,5 @@
 
-function UiService(optionsService){
+function UiService(optionsService, persistenceService, fileService){
 
 	var body = $("body");
 
@@ -292,7 +292,9 @@ function UiService(optionsService){
 
 	this.updatePreviewImage = function(offsetX, image, domainPreviewImages){
 		var percentOffset = offsetX/image.width();
-		var index = Math.ceil(percentOffset * (domainPreviewImages.length-1));
+		var index = Math.ceil(percentOffset * (domainPreviewImages.length))-1;
+		console.log(index + " of " + domainPreviewImages.length);
+		
 		image.attr("src", domainPreviewImages[index].screenshotUrl);
 		image.attr("title", domainPreviewImages[index].url);
 	}
@@ -303,39 +305,55 @@ function UiService(optionsService){
 	}
 
 	this.showDomainBlockList = function(domain, position){
-		//alert(domain);
+		var list = [];
 
-		var list = [
-			{
-				type:"domain",
-				value:"www.foo.com"
-			},
-			{
-				type:"domain",
-				value:"*.foo.com"
-			}
-		];
+		list.push({
+			type: "domain",
+			value: domain
+		});
+
+		var domainElements = domain.split(".");
+
+		while(domainElements.length-1){
+			domainElements[0] = "*";
+			// push this as is on to the list
+			list.push({
+				type: "domain",
+				value: domainElements.join(".")
+			});
+			domainElements.shift();
+		}
 
 		showBlockMenu(list, position, domain);
 	}
 
 	this.showUrlBlockList = function(url, position){
-		//alert(url);
+		var list = [];
 
-		var list = [
-			{
-				type:"url",
-				value:"http://www.foo.com/example/path"
-			},
-			{
-				type:"domain",
-				value:"www.foo.com"
-			},
-			{
-				type:"domain",
-				value:"*.foo.com"
-			}
-		];
+		list.push({
+			type: "url",
+			value: url
+		});
+
+		// get the url's domain
+		var domain = url.split("/")[2];
+
+		list.push({
+			type: "domain",
+			value: domain
+		});
+
+		var domainElements = domain.split(".");
+
+		while(domainElements.length-1){
+			domainElements[0] = "*";
+			// push this as is on to the list
+			list.push({
+				type: "domain",
+				value: domainElements.join(".")
+			});
+			domainElements.shift();
+		}
 
 		showBlockMenu(list, position, url);
 	}
@@ -368,10 +386,34 @@ function UiService(optionsService){
 		menu.css("left", (position.left - menu.width() + 12) + "px");
 	}
 
-	this.removePreview = function(type, value, srcTitle){
+	this.blockItem = function(type, value, srcTitle){
+
 		if(type == "url"){
-			optionsService.
+			// this is a regex block
+			var regexBlock = optionsService.getItem("regexBlock").split("\n");
+
+			// make our value into a regex
+			regexBlock.push("^" + value.replace(/(\\|\.|\+|\*|\?|\^|\$|\[|\]|\(|\)|\||\{|\})/g, "\\$1") + "$");
+			optionsService.setItem("regexBlock", regexBlock.join("\n"));
+
+			persistenceService.deleteUrl(value, function(screenshotURL){
+				// screenshotURL is just one file name as a string
+				fileService.deleteFiles([screenshotURL]);
+			});
+
+		} else {
+			// this is a domain block
+			var domainBlock = optionsService.getItem("domainBlock").split("\n");
+			domainBlock.push(value);
+			optionsService.setItem("domainBlock", domainBlock.join("\n"));
+
+			persistenceService.deleteDomain(value, function(screenshotURL){
+				// screenshotURL is just one file name as a string
+				fileService.deleteFiles(screenshotURL);
+			});
 		}
+
+
 
 		$(".blockMenu").remove();
 		$(".previewContainer .previewImageContainer[title='" + srcTitle + "']").parent().remove();
