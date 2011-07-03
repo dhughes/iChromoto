@@ -94,10 +94,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="uiService.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="uiService.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iChromoto/js/service/uiService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="314" column="31" selection-start="10985" selection-end="10985" vertical-scroll-proportion="0.70077866">
+            <state line="314" column="31" selection-start="10985" selection-end="10985" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manifest.json" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="19" selection-start="46" selection-end="46" vertical-scroll-proportion="0.04605263">
               <folding />
             </state>
           </provider>
@@ -117,7 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/iChromoto/js/options.js" />
         <option value="$PROJECT_DIR$/iChromoto/html/newtab.html" />
         <option value="$PROJECT_DIR$/iChromoto/html/search.html" />
         <option value="$PROJECT_DIR$/iChromoto/html/options.html" />
@@ -133,6 +141,7 @@
         <option value="$PROJECT_DIR$/iChromoto/js/service/optionsService.js" />
         <option value="$PROJECT_DIR$/iChromoto/css/newtab.css" />
         <option value="$PROJECT_DIR$/iChromoto/js/service/uiService.js" />
+        <option value="$PROJECT_DIR$/iChromoto/manifest.json" />
       </list>
     </option>
   </component>
@@ -485,13 +494,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/iChromoto/config/eventify.background.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="58" selection-start="142" selection-end="184" vertical-scroll-proportion="0.17847025">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/js/options.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="53" selection-start="229" selection-end="229" vertical-scroll-proportion="0.06017192">
@@ -592,7 +594,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/js/service/uiService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="314" column="31" selection-start="10985" selection-end="10985" vertical-scroll-proportion="0.70077866">
+        <state line="314" column="31" selection-start="10985" selection-end="10985" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="19" selection-start="46" selection-end="46" vertical-scroll-proportion="0.04605263">
           <folding />
         </state>
       </provider>
