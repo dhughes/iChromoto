@@ -5,7 +5,9 @@ eventifyConfig = {
 			type: "SearchController",
 			listeners: [
 				{"search_updatedOmnibox": "search"},
-				{"search_escapePressed": "closeSearch"}
+				{"search_escapePressed": "closeSearch"},
+				{"ui_blockUrlClicked": "showUrlBlockList"},
+				{"ui_selectedItemToBlock": "blockItem"}
 			]
 		}
 	]

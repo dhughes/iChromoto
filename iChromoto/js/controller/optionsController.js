@@ -22,6 +22,9 @@ function OptionsController(eventify){
 		if(optionsService.getItem("noSSL") == "true"){
 			$("#noSSL").prop("checked", "checked");
 		}
+
+		$("#domainBlacklist").val(optionsService.getItem("domainBlacklist"));
+		$("#regexBlacklist").val(optionsService.getItem("regexBlacklist"));
 		
 		// setup the events for the slider
 		$(".thumbnailSlider").slider({

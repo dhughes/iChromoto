@@ -4,12 +4,14 @@ function BackgroundController(eventify){
 	new Requireify().require([
 		"/js/service/imageService.js",
 		"/js/service/fileService.js",
+		"/js/service/optionsService.js",
 		"/js/service/persistenceService.js",
 		"/js/util/md5.js"
 	], function(){
 		imageService = new ImageService();
 		fileService = new FileService();
 		persistenceService = new PersistenceService();
+		optionsService = new OptionsService();
 	});
 
 	this.addChromeListeners = function(state){
@@ -41,13 +43,16 @@ function BackgroundController(eventify){
 			if(request.func == "removeSearch"){
 				chrome.tabs.sendRequest(sender.tab.id, {func: "removeSearch", args: []});
 			}
-
 		});
 	}
 
 	this.takeScreenshot = function(state){
 		// is the current tabID the same as the tab that was changed?
 		chrome.tabs.getSelected(state.windowId, function(tab){
+			// catch disallowed URLs here
+			if(optionsService.isBlacklisted(tab.url)){return};
+
+			console.log("allowed!!!");
 			// make sure we are not showing the search interface
 			chrome.tabs.sendRequest(tab.id, {func: "isShowingSearch", args: []}, function(showingSearch){
 				if(!showingSearch){

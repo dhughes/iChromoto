@@ -46,5 +46,12 @@ function SearchController(eventify){
 		});
 	}
 
+	this.showUrlBlockList = function(state){
+		uiService.showUrlBlockList(state.url, state.position);
+	}
+
+	this.blockItem = function(state){
+		uiService.blockItem(state.type, state.value, state.srcTitle);
+	}
 
 }

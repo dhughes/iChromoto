@@ -5,68 +5,9 @@ function UiService(optionsService){
 
 	var previewImages = {};
 
-	this.showSearchResults = function(search, results, clickCallback){
-		$(".previewContainer").remove();
-		
-		for(var i = 0 ; i < results.rows.length ; i++){
-			var row = results.rows.item(i);
-			
-			// we always show all search results
-
-			// our image
-			var previewImage = $("<img />");
-			previewImage.addClass("previewImage");
-			previewImage.attr("src", row.screenshotURL);
-			previewImage.attr("title", row.url);
-
-			previewImage.click(function(event){
-				var image = $(event.target);
-				var url = image.parent().attr("title");
-				clickCallback(url);
-			});
-
-			// create the div that holds everything for this domain
-			var previewContainer = $("<div />");
-			previewContainer.addClass("previewContainer");
-			previewContainer.addClass("wide");
-			previewContainer.css("width", optionsService.getItem("largeThumbnailSize") + "px");
-			previewContainer.css("height", optionsService.getItem("largeThumbnailSize") + "px");
-			previewContainer.css("max-width", optionsService.getItem("largeThumbnailSize") + "px");
-			previewContainer.css("max-height", optionsService.getItem("largeThumbnailSize") + "px");
-			previewContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
-
-			// this is the container that will hold the image
-			var previewImageContainer = $("<div />");
-			previewImageContainer.addClass("previewImageContainer");
-			previewImageContainer.attr("title", row.url);
-			previewImageContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
-
-			// add the preview image container to the preview container
-			previewContainer.append(previewImageContainer);
-
-			// add these things to the document
-			previewContainer.append(previewImageContainer);
-			previewContainer.append("<p>" + row.domain + "</p>");
-			previewContainer.append("<p class='snippet'>" + row.snippet + "</p>");
-
-			previewImageContainer.append(previewImage);
-			previewImageContainer.append("&nbsp;");
-			
-			if(row.bookmarked == 1){
-				var star = $("<img />");
-				star.attr("src", "/img/star.png");
-				star.attr("class", "bookmark");
-				star.css("top", ((optionsService.getItem("largeThumbnailSize"))/2)-20) + "px";
-				previewImageContainer.append(star);
-			}
-
-			body.append(previewContainer);
-		}
-	}
-
 	this.showHistory = function(history, mousemoveCallback, mouseresetCallback, clickCallback, doubleClickCallback){
 		// actually remove the preview images from the dom
-		$(".previewContainer").remove();
+		$(".previewContainer, .blockMenu").remove();
 		$("#toolbar").hide();
 		previewImages = {};
 		
@@ -96,9 +37,6 @@ function UiService(optionsService){
 					lastDate = row.visitdate;
 					$(".previewContainer:last").addClass("lastDay");
 				}
-
-				console.log(row.visitdate);
-				console.log(lastDate);
 
 				bookmarked = false;
 				first = true;
@@ -162,9 +100,28 @@ function UiService(optionsService){
 				previewContainer.append("<p>" + row.domain + "</p>");
 				previewImageContainer.append(previewImage);
 				previewImageContainer.append("&nbsp;");
+				
+				var block = $("<img />");
+				block.attr("src", "/img/block.png");
+				block.attr("class", "block");
+				block.css("top", -((optionsService.getItem("smallThumbnailSize"))/2)+10) + "px";
+				block.hover(function(){
+					$(this).attr("src", "/img/blockOver.png");
+				});
+				block.mouseleave(function(){
+					$(this).attr("src", "/img/block.png");
+				});
+				block.click(function(){
+					eventify.raise("ui_blockDomainClicked", {
+						domain: $(this).parent().attr("title"),
+						position: $(this).offset()
+					});
+				});
+				previewImageContainer.append(block);
 
 				body.append(previewContainer);
 			}
+
 
 			if(row.bookmarked == 1 && !bookmarked){
 				bookmarked = true;
@@ -179,7 +136,7 @@ function UiService(optionsService){
 
 	this.showDomainHistory = function(domain, clickCallback){
 		// actually remove the preview images from the dom
-		$(".previewContainer").remove();
+		$(".previewContainer, .blockMenu").remove();
 
 		// get the set of thumbnails for this domain
 		var images = previewImages[domain];
@@ -219,7 +176,26 @@ function UiService(optionsService){
 			previewContainer.append("<p>" + images[i].url + "</p>");
 			previewImageContainer.append(previewImage);
 			previewImageContainer.append("&nbsp;");
-			
+
+			var block = $("<img />");
+			block.attr("src", "/img/block.png");
+			block.attr("class", "block");
+			block.css("top", -((optionsService.getItem("largeThumbnailSize"))/2)+10) + "px";
+			block.hover(function(){
+				$(this).attr("src", "/img/blockOver.png");
+			});
+			block.mouseleave(function(){
+				$(this).attr("src", "/img/block.png");
+			});
+			block.click(function(){
+				eventify.raise("ui_blockUrlClicked", {
+					url: $(this).parent().attr("title"),
+					position: $(this).offset()
+				});
+			});
+
+			previewImageContainer.append(block);
+
 			if(images[i].bookmarked == 1){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
@@ -237,6 +213,83 @@ function UiService(optionsService){
 		//others.parent(".previewContainer").fadeOut();
 	}
 
+	this.showSearchResults = function(search, results, clickCallback){
+		$(".previewContainer, .blockMenu").remove();
+
+		for(var i = 0 ; i < results.rows.length ; i++){
+			var row = results.rows.item(i);
+
+			// we always show all search results
+
+			// our image
+			var previewImage = $("<img />");
+			previewImage.addClass("previewImage");
+			previewImage.attr("src", row.screenshotURL);
+			previewImage.attr("title", row.url);
+
+			previewImage.click(function(event){
+				var image = $(event.target);
+				var url = image.parent().attr("title");
+				clickCallback(url);
+			});
+
+			// create the div that holds everything for this domain
+			var previewContainer = $("<div />");
+			previewContainer.addClass("previewContainer");
+			previewContainer.addClass("wide");
+			previewContainer.css("width", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("height", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("max-width", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("max-height", optionsService.getItem("largeThumbnailSize") + "px");
+			previewContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
+
+			// this is the container that will hold the image
+			var previewImageContainer = $("<div />");
+			previewImageContainer.addClass("previewImageContainer");
+			previewImageContainer.attr("title", row.url);
+			previewImageContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
+
+			// add the preview image container to the preview container
+			previewContainer.append(previewImageContainer);
+
+			// add these things to the document
+			previewContainer.append(previewImageContainer);
+			previewContainer.append("<p>" + row.domain + "</p>");
+			previewContainer.append("<p class='snippet'>" + row.snippet + "</p>");
+
+			previewImageContainer.append(previewImage);
+			previewImageContainer.append("&nbsp;");
+
+			var block = $("<img />");
+			block.attr("src", "/img/block.png");
+			block.attr("class", "block");
+			block.css("top", -((optionsService.getItem("largeThumbnailSize"))/2)+10) + "px";
+			block.hover(function(){
+				$(this).attr("src", "/img/blockOver.png");
+			});
+			block.mouseleave(function(){
+				$(this).attr("src", "/img/block.png");
+			});
+			block.click(function(){
+				eventify.raise("ui_blockUrlClicked", {
+					url: $(this).parent().attr("title"),
+					position: $(this).offset()
+				});
+			});
+			previewImageContainer.append(block);
+
+			if(row.bookmarked == 1){
+				var star = $("<img />");
+				star.attr("src", "/img/star.png");
+				star.attr("class", "bookmark");
+				star.css("top", ((optionsService.getItem("largeThumbnailSize"))/2)-20) + "px";
+				previewImageContainer.append(star);
+			}
+
+			body.append(previewContainer);
+		}
+	}
+
 	this.updatePreviewImage = function(offsetX, image, domainPreviewImages){
 		var percentOffset = offsetX/image.width();
 		var index = Math.ceil(percentOffset * (domainPreviewImages.length-1));
@@ -247,5 +300,80 @@ function UiService(optionsService){
 	this.resetPreviewImage = function(image, previewImage){
 		image.attr("src", previewImage.screenshotUrl);
 		image.attr("title", previewImage.url);
+	}
+
+	this.showDomainBlockList = function(domain, position){
+		//alert(domain);
+
+		var list = [
+			{
+				type:"domain",
+				value:"www.foo.com"
+			},
+			{
+				type:"domain",
+				value:"*.foo.com"
+			}
+		];
+
+		showBlockMenu(list, position, domain);
+	}
+
+	this.showUrlBlockList = function(url, position){
+		//alert(url);
+
+		var list = [
+			{
+				type:"url",
+				value:"http://www.foo.com/example/path"
+			},
+			{
+				type:"domain",
+				value:"www.foo.com"
+			},
+			{
+				type:"domain",
+				value:"*.foo.com"
+			}
+		];
+
+		showBlockMenu(list, position, url);
+	}
+
+	showBlockMenu = function(list, position, srcTitle){
+		$(".blockMenu").remove();
+		
+		var menu = $("<ul />");
+
+		var item = $("<li><strong>Block:</strong></li>");
+		menu.append(item);
+
+		menu.addClass("blockMenu");
+		for(var x = 0 ; x < list.length ; x++){
+			var item = $("<li class='blockItem' title='" + list[x].type + "'>" + list[x].value + "</li>");
+			item.click(function(){
+				var type = $(this).attr("title");
+				var value = $(this).text();
+				eventify.raise("ui_selectedItemToBlock", {type: type, value: value, srcTitle: srcTitle});
+			});
+			menu.append(item);
+		}
+
+		menu.mouseleave(function(event){
+			$(this).remove();
+		});
+
+		$(document.body).append(menu);
+		menu.css("top", (position.top - 4) + "px");
+		menu.css("left", (position.left - menu.width() + 12) + "px");
+	}
+
+	this.removePreview = function(type, value, srcTitle){
+		if(type == "url"){
+			optionsService.
+		}
+
+		$(".blockMenu").remove();
+		$(".previewContainer .previewImageContainer[title='" + srcTitle + "']").parent().remove();
 	}
 }

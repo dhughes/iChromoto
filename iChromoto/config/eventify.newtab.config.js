@@ -11,7 +11,10 @@ eventifyConfig = {
 				{"uiService_leftPreviewImage": "resetPreviewImage"},
 				{"uiService_previewImageClicked": "showDomainHistory"},
 				{"uiService_previewImageDoubleClicked": "goToUrl"},
-				{"uiService_domainPreviewImageClicked": "goToUrl"}
+				{"uiService_domainPreviewImageClicked": "goToUrl"},
+				{"ui_blockUrlClicked": "showUrlBlockList"},
+				{"ui_blockDomainClicked": "showDomainBlockList"},
+				{"ui_selectedItemToBlock": "blockItem"}
 			]
 		}
 	]

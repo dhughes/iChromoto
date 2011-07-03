@@ -103,11 +103,39 @@ img{
 	z-index: 10;
 }
 
+.previewContainer.small img.block{
+	position: relative;
+	left: -20px;
+	/*top: 80px;*/
+	z-index: 10;
+	display: none;
+}
+
+.previewContainer.small:hover img.block{
+	display: inline;
+}
+
 .previewContainer.wide img.bookmark{
 	position: relative;
 	left: -30px;
 	top: 130px;
 	z-index: 10;
+}
+
+.previewContainer.wide img.block{
+	position: relative;
+	left: -20px;
+	top: 130px;
+	z-index: 10;
+	display: none;
+}
+
+.previewContainer.wide:hover img.block{
+	display: inline;
+}
+
+.previewImage, img.blockr{
+	cursor: pointer;
 }
 
 .previewContainer{
@@ -193,4 +221,28 @@ img{
 
 #toolbar button img{
 	margin-top: -4px;
+}
+
+.blockMenu{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	border: 1px solid white;
+	background-color: black;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	z-index: 11;
+	border-radius: 4px;
+}
+
+.blockMenu li{
+	padding: 4px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.blockMenu li.blockItem:hover{
+	background-color: #434343;
+	cursor: pointer;
 }

@@ -82,4 +82,16 @@ function NewTabController(eventify){
 	this.goToUrl = function(state){
 		location.href = state.url;
 	}
+
+	this.showDomainBlockList = function(state){
+		uiService.showDomainBlockList(state.domain, state.position);
+	}
+
+	this.showUrlBlockList = function(state){
+		uiService.showUrlBlockList(state.url, state.position);
+	}
+
+	this.blockItem = function(state){
+		uiService.blockItem(state.type, state.value, state.srcTitle);
+	}
 }
