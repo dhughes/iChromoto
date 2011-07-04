@@ -18,7 +18,11 @@ function OptionsController(eventify){
 		$("#largeThumbnailSize").val(optionsService.getItem("largeThumbnailSize"));
 		$("#domainBlock").val(optionsService.getItem("domainBlock"));
 		$("#regexBlock").val(optionsService.getItem("regexBlock"));
-
+		if(optionsService.getItem("groupByFulldomain") == "true"){
+			$("input[name='groupByFulldomain']:eq(0)").attr('checked', 'checked');
+		} else {
+			$("input[name='groupByFulldomain']:eq(1)").attr('checked', 'checked');
+		}
 		if(optionsService.getItem("noSSL") == "true"){
 			$("#noSSL").prop("checked", "checked");
 		}
@@ -56,6 +60,9 @@ function OptionsController(eventify){
 		});
 		$("#regexBlock").keyup(function(event){
 			eventify.raise("options_changedRegexBlock", {regexBlock: $(this).val()});
+		});
+		$("input[name='groupByFulldomain']").change(function(event){
+			optionsService.setItem("groupByFulldomain", $(this).val());
 		});
 	});
 

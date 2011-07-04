@@ -111,8 +111,20 @@ img{
 	display: none;
 }
 
-.previewContainer.small:hover img.block{
+.previewContainer.small img.pin{
+	position: relative;
+	left: -290px;
+	/*top: 80px;*/
+	z-index: 11;
+	display: none;
+}
+
+.previewContainer.small:hover img.block, .previewContainer.small:hover img.pin{
 	display: inline;
+}
+
+.previewContainer img.block:hover, .previewContainer img.pin:hover{
+	cursor: pointer;
 }
 
 .previewContainer.wide img.bookmark{
@@ -120,6 +132,11 @@ img{
 	left: -30px;
 	top: 130px;
 	z-index: 10;
+}
+
+.previewContainer:hover img.pin{
+	margin-left: -10px;
+	display: none;
 }
 
 .previewContainer:hover img.bookmark{

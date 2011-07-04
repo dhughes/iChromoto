@@ -29,6 +29,45 @@ function PersistenceService(){
 				'   text TEXT ) '
 			);
 		});
+		m.migration(3, function(t){
+			console.log("tryin #3");
+			// add the fulldomain column
+			t.executeSql(
+				'ALTER TABLE history ' +
+				'   ADD COLUMN fulldomain TEXT '
+			);
+			t.executeSql(
+				// set the fulldomain column to the current domain column value
+				'UPDATE history ' +
+				'SET fulldomain = domain ',
+				null,
+				function(t, results){
+					console.log("updated fulldomain column");
+					t.executeSql(
+						// get all the domain column values (so we can remove any subdomain from them)
+						'SELECT DISTINCT domain FROM history',
+						null,
+						function(t, results){
+							console.log("selected " + results.rows.length + " domains");
+							// iterate over the domains and update each one
+							for(var i = 0 ; i < results.rows.length ; i++){
+								// remove the "sub" part of the domain
+								var initialDomain = results.rows.item(i).domain;
+								var domain = trimDomain(initialDomain);
+
+								// update the database with the new domain value
+								t.executeSql(
+									'UPDATE history ' +
+									'SET domain = ? ' +
+									'WHERE domain = ? ',
+									[domain, initialDomain]
+								);
+							}
+						}
+					);
+				}
+			);
+		});
 		m.doIt(function(){
 			inited = true;
 		});
@@ -36,6 +75,16 @@ function PersistenceService(){
 
 	// note: I really don't like having this hidden down at the bottom of this file.
 	new Requireify().require(["/js/util/migrator.js"], init);
+
+	trimDomain = function(domain){
+		var domain = domain.split(".");
+
+		while(domain.length > 2){
+			var removed = domain.shift();
+			console.log("removed: " + removed);
+		}
+		return domain.join(".");
+	}
 
 	this.checkIfExists = function(url, callback){
 		db.transaction(function(tx){
@@ -46,14 +95,18 @@ function PersistenceService(){
 		});
 	}
 
-	this.insert = function(url, domain, title, screenshotURL, width, height, bookmarked, text, callback){
+	this.insert = function(url, fulldomain, title, screenshotURL, width, height, bookmarked, text, callback){
+		// trim the domain down
+		var domain = trimDomain(fulldomain);
+
 		db.transaction(function(tx){
 			tx.executeSql(
-				"INSERT INTO history (url, domain, title, screenshotURL, width, height, bookmarked, visitdate, visits) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				"INSERT INTO history (url, domain, fulldomain, title, screenshotURL, width, height, bookmarked, visitdate, visits) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				[
 					url,
 					domain,
+					fulldomain,
 					title,
 					screenshotURL,
 					width,
@@ -81,7 +134,7 @@ function PersistenceService(){
 		callback();
 	}
 
-	this.update = function(url, domain, title, screenshotURL, width, height, bookmarked, text, callback){
+	this.update = function(url, fulldomain, title, screenshotURL, width, height, bookmarked, text, callback){
 		db.transaction(function(tx){
 			// update the record
 			tx.executeSql(
@@ -115,16 +168,19 @@ function PersistenceService(){
 		callback();
 	}
 
-	this.getHistory = function(callback){
+	this.getHistory = function(groupByFulldomain, callback){
+		// if groupByFulldomain = 0 then we group by domain, otherwise by fulldomain
+		var domain = groupByFulldomain == "true" ? "fulldomain" : "domain";
+
 		db.transaction(function(tx){
 			tx.executeSql(
-				"SELECT h1.domain, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, date(h2.visitdate) as visitdate, h2.totalvisits " +
+				"SELECT h1." + domain + " as domain, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, date(h2.visitdate) as visitdate, h2.totalvisits " +
 				"FROM history as h1 JOIN ( " +
-				"	SELECT h1.domain, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
+				"	SELECT h1." + domain + ", max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
 				"	FROM history as h1 " +
-				"	GROUP BY h1.domain " +
+				"	GROUP BY h1." + domain + 
 				") as h2 " +
-				"ON h1.domain = h2.domain " +
+				"ON h1." + domain + " = h2." + domain + " " +
 				"ORDER BY h2.visitdate DESC",
 				[],
 				function(tx, result){
@@ -216,8 +272,8 @@ function PersistenceService(){
 		});
 	}
 
-	log = function(msg){
-		//console.log(msg);
+	log = function(){
+		console.log(arguments);
 	}
 
 	now = function(){

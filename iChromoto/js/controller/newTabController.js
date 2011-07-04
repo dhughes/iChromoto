@@ -14,7 +14,8 @@ function NewTabController(eventify){
 		"/js/displaySearch.js"
 	], function(){
 		persistenceService = new PersistenceService();
-		uiService = new UiService(new OptionsService(), persistenceService, new FileService());
+		optionsService = new OptionsService();
+		uiService = new UiService(optionsService, persistenceService, new FileService());
 
 		// setup the back button
 		$("#back").click(function(){
@@ -25,7 +26,7 @@ function NewTabController(eventify){
 	});
 
 	this.getHistory = function(state){
-		persistenceService.getHistory(function(result){
+		persistenceService.getHistory(optionsService.getItem("groupByFulldomain"), function(result){
 			console.log(result);
 			history = result;
 			eventify.raise("newtab_gotHistory", {}, state);

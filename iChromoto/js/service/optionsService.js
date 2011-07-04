@@ -6,7 +6,8 @@ function OptionsService(){
 		largeThumbnailSize: 400,
 		noSSL: false,
 		domainBlock: "",
-		regexBlock: ""
+		regexBlock: "",
+		groupByFulldomain: true
 	};
 
 	// set any items missing in localstorage
@@ -77,7 +78,7 @@ function OptionsService(){
 	}
 
 	this.setItem = function(item, value){
-		localStorage.setItem(item, value.replace( /^\s+/, "" ).replace( /\s+$/, "" ));
+		localStorage.setItem(item, new String(value).replace( /^\s+/, "" ).replace( /\s+$/, "" ));
 	}
 
 	this.getItem = function(item){

@@ -118,10 +118,18 @@ function UiService(optionsService, persistenceService, fileService){
 					});
 				});
 				previewImageContainer.append(block);
+								
+				var pin = $("<img />");
+				pin.attr("src", "/img/pin.png");
+				pin.attr("class", "pin");
+				pin.css("top", -(optionsService.getItem("smallThumbnailSize")/2)+10) + "px";
+				pin.click(function(event){
+					alert("pinned!!!!");
+				})
+				previewImageContainer.append(pin);
 
 				body.append(previewContainer);
 			}
-
 
 			if(row.bookmarked == 1 && !bookmarked){
 				bookmarked = true;
