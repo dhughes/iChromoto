@@ -1,3 +1,5 @@
+@import "/css/jquery.contextMenu.css";
+
 body{
 	background-color: #434343;
 	color: white;
@@ -61,6 +63,7 @@ img{
 	display: inline;
 }
 
+/*
 .previewContainer.lastDay{
 	border-right: 1px solid #545454;
 	padding-right: 35px;
@@ -71,7 +74,6 @@ img{
 	padding-left: 35px;
 }
 
-/*
 .previewContainer.small{
 	width: 200px;
 	height: 200px;
@@ -96,11 +98,16 @@ img{
 
 */
 
+
 .previewContainer.small img.bookmark{
 	position: relative;
 	left: -30px;
 	/*top: 80px;*/
 	z-index: 10;
+}
+
+.previewImageContainer.pinned img.bookmark{
+	left: -40px;
 }
 
 .previewContainer.small img.block{
@@ -119,6 +126,10 @@ img{
 	display: none;
 }
 
+.previewImageContainer.pinned img.pin{
+	display: inline!important;
+}
+
 .previewContainer.small:hover img.block, .previewContainer.small:hover img.pin{
 	display: inline;
 }
@@ -134,9 +145,12 @@ img{
 	z-index: 10;
 }
 
+.hidden{
+	display: none;
+}
+
 .previewContainer:hover img.pin{
 	margin-left: -10px;
-	display: none;
 }
 
 .previewContainer:hover img.bookmark{
@@ -151,11 +165,19 @@ img{
 	display: none;
 }
 
-.previewContainer.wide:hover img.block{
+.previewContainer.wide img.pin{
+	position: relative;
+	left: -490px;
+	/*top: 80px;*/
+	z-index: 11;
+	display: none;
+}
+
+.previewContainer.wide:hover img.block, .previewContainer.wide:hover img.pin{
 	display: inline;
 }
 
-.previewImage, img.blockr{
+.previewImage, img.block, img.pin{
 	cursor: pointer;
 }
 
@@ -200,16 +222,20 @@ img{
 
 #toolbar{
 	display:none;
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e2e2e2), to(#a4a4a4));
 	height: 35px;
 	line-height: 35px;
+}
+
+.toolbar{
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e2e2e2), to(#a4a4a4));
 	vertical-align: middle;
 	overflow: hidden;
 	color: #000000;
 	font-size: 13px;
+	box-shadow: 2px 2px 2px #333333;
 }
 
-#toolbar .left{
+.toolbar .left{
 	float: left;
 	width:200px;
 	height: 100%;
@@ -217,7 +243,7 @@ img{
 	margin-left: 5px;
 }
 
-#toolbar .right{
+.toolbar .right{
 	float: right;
 	width:200px;
 	height: 100%;
@@ -225,13 +251,18 @@ img{
 	margin-right: 5px;
 }
 
-#toolbar .center{
+.toolbar .center{
 	margin-left: 210px;
 	margin-right: 210px;
 	height: 100%;
 }
 
-#toolbar button{
+#appsbar .center{
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+.toolbar button{
 	height: 24px;
 	border: 1px solid black;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fffefc), to(#c0c0c0));
@@ -240,8 +271,68 @@ img{
 	margin-left: 5px;
 }
 
-#toolbar button img{
+.toolbar button img{
 	margin-top: -4px;
+}
+
+#appsbar{
+	display: none;
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	overflow: visible;
+	z-index: 9999999;
+}
+
+.appContainer{
+	min-height: 80px;
+	padding: 5px;
+	width: 85px;
+	display: inline-block;
+	overflow: hidden;
+	text-align: center;
+	margin: 3px;
+	vertical-align: top;
+	cursor: pointer;
+}
+
+.appContainer:hover{
+	background: #434343;
+	border-radius: 5px;
+}
+
+.appContainer:hover p{
+	color: white;
+}
+
+.appContainer img{
+	height: 48px;
+	width: 48px;
+	margin: 0px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.appContainer p{
+	line-height: 1em;
+	margin: 5px;
+}
+
+.hangtab{
+	display: none;
+	position: relative;
+	top: 1.65em;
+	width: 5em;
+	margin-top: -1.65em;
+	margin-left: 30px;
+	height: 1.65em;
+	font-size: .75em;
+	line-height: 1.5em;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#a5a5a5), to(#b9b9b9));
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 2px 2px 2px #333333;
 }
 
 .blockMenu{

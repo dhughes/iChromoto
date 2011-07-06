@@ -5,6 +5,8 @@ eventifyConfig = {
 			type: "NewTabController",
 			listeners: [
 				{"newtab_documentReady": "getHistory"},
+				{"newtab_documentReady": "addApps"},
+				{"ui_installedApp": "addApps"},
 				{"newtab_gotHistory": "showHistory"},
 				{"uiService_backClicked": "showHistory"},
 				{"uiService_overPreviewImage": "updatePreviewImage"},
@@ -14,7 +16,14 @@ eventifyConfig = {
 				{"uiService_domainPreviewImageClicked": "goToUrl"},
 				{"ui_blockUrlClicked": "showUrlBlockList"},
 				{"ui_blockDomainClicked": "showDomainBlockList"},
-				{"ui_selectedItemToBlock": "blockItem"}
+				{"ui_selectedItemToBlock": "blockItem"},
+				{"ui_clickedAppIcon": "openApp"},
+				{"ui_appContextOpenApp": "openApp"},
+				{"ui_appContextOptions": "appOptions"},
+				{"ui_appContextUninstall": "uninstallApp"},
+				{"ui_toggledPinnedDomain": "togglePinnedDomain"},
+				{"ui_toggledPinnedUrl": "togglePinnedUrl"}
+
 			]
 		}
 	]

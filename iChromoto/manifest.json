@@ -6,7 +6,8 @@
 		"tabs",
         "<all_urls>",
 		"unlimitedStorage",
-		"bookmarks"
+		"bookmarks",
+		"management"
     ],
 	"background_page": "html/background.html",
 	"chrome_url_overrides" : {

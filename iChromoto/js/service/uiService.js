@@ -5,14 +5,155 @@ function UiService(optionsService, persistenceService, fileService){
 
 	var previewImages = {};
 
+	this.setupForm = function(){
+		// setup the apps toolbar
+		$("#appsbar .hangtab").mouseover(function(){
+			$(this).parent().animate({
+				top: 0
+			}, "fast");
+		});
+
+		$("#appsbar").mouseleave(function(){
+			var height = -$(this).height() + 5;
+
+			$(this).animate({
+				top: height
+			}, "fast");
+		});
+
+		$(document).mouseleave(function(){
+			if($("#appsbar .appContainer").length){
+				$("#appsbar").queue(function(next){
+					$(".appContainer").hide();
+					$("#appsbar").css("height", 90);
+					$("#appsbar").css("top", -$("#appsbar").height() + 5);
+					next();
+				});
+			}
+		});
+
+		$(document).mouseenter(function(){
+			$(".appContainer").show();
+			$("#appsbar").css("height", "auto");
+			$("#appsbar").css("top", -$("#appsbar").height() + 5);
+		});
+
+		// setup the back button
+		$("#back").click(function(){
+			eventify.raise("uiService_backClicked");
+		});
+	}
+
+	this.removeApp = function(id){
+		$("#" + id).remove();
+
+		if(!$(".appContainer").length){
+			$("#appsbar").queue(function(next){
+				$("#appsbar").animate({top: -100});
+				next();
+			});
+			$("#appsbar").queue(function(next){
+				$("#appsbar").hide();
+				next();
+			});
+		}
+	}
+
+	this.addApps = function(apps){
+		if(apps.length){
+			var appsContainer = $("#appsbar .center");
+
+			var menu = $("<ul/>");
+			menu.addClass("contextMenu");
+			menu.attr("id", "contextMenu");
+
+			var item = $("<li />");
+			var link = $("<a />");
+			link.attr("href", "#OpenApp");
+			link.text("Open app");
+			item.append(link);
+			menu.append(item);
+
+			var item = $("<li />");
+			var link = $("<a />");
+			link.attr("href", "#Options");
+			link.text("Options");
+			item.append(link);
+			menu.append(item);
+
+			var item = $("<li />");
+			var link = $("<a />");
+			link.attr("href", "#Uninstall");
+			link.text("Uninstall");
+			item.append(link);
+			menu.append(item);
+
+			menu.mouseleave(function(){
+				$(this).hide();
+			});
+			
+			appsContainer.append(menu);
+
+			for(var i = 0 ; i < apps.length ; i++){
+				if(apps[i].isApp){
+					var app = apps[i];
+
+					var bestSize = null;
+					var iconUrl = null;
+					for(var x = 0 ; x < app.icons.length ; x++){
+						if(app.icons[x].size >= 48 && (bestSize == null || app.icons[x].size < bestSize )){
+							bestSize = app.icons[x].size;
+							iconUrl = app.icons[x].url;
+						}
+					}
+
+					var appContainer = $("<div />");
+					appContainer.attr("id", app.id);
+					appContainer.attr("class", "appContainer");
+					appContainer.click(function(event){
+						var id = $(this).attr("id");
+						$("#appsbar").css("top", -$("#appsbar").height()+5);
+						eventify.raise("ui_clickedAppIcon", {id: id});
+					});
+					appContainer.contextMenu({
+						menu: "contextMenu"
+					},
+					function(action, el, pos) {
+						eventify.raise("ui_appContext" + action, {id: $(el).attr("id")});
+					});
+
+					var appIcon = $("<img />");
+					appIcon.attr("src", iconUrl);
+					appIcon.attr("alt", app.name);
+					appIcon.attr("title", app.name);
+
+					var appName = $("<p />");
+					appName.text(app.name);
+
+					appContainer.append(appIcon);
+					appContainer.append(appName);
+
+					appsContainer.append(appContainer);
+					$("#appsbar").show();
+					$("#appsbar .hangtab").show();
+				}
+			}
+
+			$("#appsbar").css("top", -$("#appsbar").height()+5);
+			$("#appsbar").css("display", "block");
+		}
+	}
+
 	this.showHistory = function(history, mousemoveCallback, mouseresetCallback, clickCallback, doubleClickCallback){
 		// actually remove the preview images from the dom
 		$(".previewContainer, .blockMenu").remove();
 		$("#toolbar").hide();
+		$("#appsbar").show();
 		previewImages = {};
+		var unpinnedPreviewImages = {};
 		
 		var lastDomain = "";
-		var lastDate = "";
+		//var lastDate = "";
 		var bookmarked = false;
 		for(var i = 0 ; i < history.rows.length ; i++){
 			var row = history.rows.item(i);
@@ -21,22 +162,35 @@ function UiService(optionsService, persistenceService, fileService){
 			if(!(row.domain in previewImages)){
 				previewImages[row.domain] = [];
 			}
+			if(!(row.domain in unpinnedPreviewImages)){
+				unpinnedPreviewImages[row.domain] = [];
+			}
 
-			previewImages[row.domain].push({
-				screenshotUrl: row.screenshotURL,
-				url: row.url,
-				bookmarked: row.bookmarked
-			});
-
+			if(row.urlPinned == 1){
+				previewImages[row.domain].push({
+					screenshotUrl: row.screenshotURL,
+					url: row.url,
+					bookmarked: row.bookmarked,
+					pinned: row.urlPinned
+				});
+			} else {
+				unpinnedPreviewImages[row.domain].push({
+					screenshotUrl: row.screenshotURL,
+					url: row.url,
+					bookmarked: row.bookmarked,
+					pinned: row.urlPinned
+				});
+			}
+			
 			// though we won't stick them all in the document yet
 			var newDay = false;
 			if(lastDomain != row.domain){
-
-				if(row.visitdate != lastDate){
+				/*
+				if(row.visitdate != lastDate && row.domainPinned != 1){
 					var newDay = true;
 					lastDate = row.visitdate;
 					$(".previewContainer:last").addClass("lastDay");
-				}
+				}*/
 
 				bookmarked = false;
 				first = true;
@@ -81,14 +235,17 @@ function UiService(optionsService, persistenceService, fileService){
 				previewContainer.css("max-width", optionsService.getItem("smallThumbnailSize") + "px");
 				previewContainer.css("max-height", optionsService.getItem("smallThumbnailSize") + "px");
 				previewContainer.css("line-height", optionsService.getItem("smallThumbnailSize") + "px");
-
-				if(i != 0 && newDay){
+				/*
+				if(i != 0 && newDay && row.domainPinned != 1){
 					previewContainer.addClass("newDay");
-				}
+				}*/
 
 				// this holds the container that will hold the image
 				var previewImageContainer = $("<div />");
 				previewImageContainer.addClass("previewImageContainer");
+				if(row.domainPinned == 1){
+					previewImageContainer.addClass("pinned");
+				}
 				previewImageContainer.css("line-height", optionsService.getItem("smallThumbnailSize") + "px");
 				previewImageContainer.attr("title", row.domain);
 
@@ -123,9 +280,19 @@ function UiService(optionsService, persistenceService, fileService){
 				pin.attr("src", "/img/pin.png");
 				pin.attr("class", "pin");
 				pin.css("top", -(optionsService.getItem("smallThumbnailSize")/2)+10) + "px";
+				pin.css("left", -(optionsService.getItem("smallThumbnailSize"))+10) + "px";
 				pin.click(function(event){
-					alert("pinned!!!!");
+					if($(this).parent().hasClass("pinned")){
+						$(this).css("display", "none");
+					}
+					$(this).parent().toggleClass("pinned");
+					var domain = $(this).parent().attr("title");
+					eventify.raise("ui_toggledPinnedDomain", {domain: domain});
 				})
+				previewContainer.mouseleave(function(){
+					console.log($(this).children(".pin"));
+					$(this).find(".pin").css("display", "");
+				});
 				previewImageContainer.append(pin);
 
 				body.append(previewContainer);
@@ -140,9 +307,15 @@ function UiService(optionsService, persistenceService, fileService){
 				previewImageContainer.append(star);
 			}
 		}
+
+		for(var domain in previewImages){
+			previewImages[domain] = previewImages[domain].concat(unpinnedPreviewImages[domain]);
+		}
+
 	}
 
 	this.showDomainHistory = function(domain, clickCallback){
+		$("#appsbar").hide();
 		// actually remove the preview images from the dom
 		$(".previewContainer, .blockMenu").remove();
 
@@ -163,6 +336,7 @@ function UiService(optionsService, persistenceService, fileService){
 			// create the div that holds everything for this url
 			var previewContainer = $("<div />");
 			previewContainer.addClass("previewContainer");
+			//previewContainer.addClass("pinned");
 			previewContainer.addClass("wide");
 			previewContainer.css("width", optionsService.getItem("largeThumbnailSize") + "px");
 			previewContainer.css("height", optionsService.getItem("largeThumbnailSize") + "px");
@@ -173,6 +347,9 @@ function UiService(optionsService, persistenceService, fileService){
 			// this holds the container that will hold the image
 			var previewImageContainer = $("<div />");
 			previewImageContainer.addClass("previewImageContainer");
+			if(images[i].pinned == 1){
+				previewImageContainer.addClass("pinned");
+			}
 			previewImageContainer.attr("title", images[i].url);
 			previewImageContainer.css("line-height", optionsService.getItem("largeThumbnailSize") + "px");
 
@@ -204,6 +381,25 @@ function UiService(optionsService, persistenceService, fileService){
 
 			previewImageContainer.append(block);
 
+			var pin = $("<img />");
+			pin.attr("src", "/img/pin.png");
+			pin.attr("class", "pin");
+			pin.css("top", -(optionsService.getItem("largeThumbnailSize")/2)+10) + "px";
+			pin.css("left", -(optionsService.getItem("largeThumbnailSize"))+10) + "px";
+			pin.click(function(event){
+				if($(this).parent().hasClass("pinned")){
+					$(this).css("display", "none");
+				}
+				$(this).parent().toggleClass("pinned");
+				var url = $(this).parent().attr("title");
+				eventify.raise("ui_toggledPinnedUrl", {url: url});
+			})
+			previewContainer.mouseleave(function(){
+				console.log($(this).children(".pin"));
+				$(this).find(".pin").css("display", "");
+			});
+			previewImageContainer.append(pin);
+
 			if(images[i].bookmarked == 1){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
@@ -223,6 +419,7 @@ function UiService(optionsService, persistenceService, fileService){
 
 	this.showSearchResults = function(search, results, clickCallback){
 		$(".previewContainer, .blockMenu").remove();
+		$("#appsbar").show();
 
 		for(var i = 0 ; i < results.rows.length ; i++){
 			var row = results.rows.item(i);
@@ -244,6 +441,7 @@ function UiService(optionsService, persistenceService, fileService){
 			// create the div that holds everything for this domain
 			var previewContainer = $("<div />");
 			previewContainer.addClass("previewContainer");
+			//previewContainer.addClass("pinned");
 			previewContainer.addClass("wide");
 			previewContainer.css("width", optionsService.getItem("largeThumbnailSize") + "px");
 			previewContainer.css("height", optionsService.getItem("largeThumbnailSize") + "px");
@@ -286,6 +484,25 @@ function UiService(optionsService, persistenceService, fileService){
 			});
 			previewImageContainer.append(block);
 
+			var pin = $("<img />");
+			pin.attr("src", "/img/pin.png");
+			pin.attr("class", "pin");
+			pin.css("top", -(optionsService.getItem("largeThumbnailSize")/2)+10) + "px";
+			pin.css("left", -(optionsService.getItem("largeThumbnailSize"))+10) + "px";
+			pin.click(function(event){
+				if($(this).parent().hasClass("pinned")){
+					$(this).css("display", "none");
+				}
+				$(this).parent().toggleClass("pinned");
+				var url = $(this).parent().attr("title");
+				eventify.raise("ui_toggledPinnedUrl", {url: url});
+			})
+			previewContainer.mouseleave(function(){
+				console.log($(this).children(".pin"));
+				$(this).find(".pin").css("display", "");
+			});
+			previewImageContainer.append(pin);
+
 			if(row.bookmarked == 1){
 				var star = $("<img />");
 				star.attr("src", "/img/star.png");
@@ -301,7 +518,7 @@ function UiService(optionsService, persistenceService, fileService){
 	this.updatePreviewImage = function(offsetX, image, domainPreviewImages){
 		var percentOffset = offsetX/image.width();
 		var index = Math.ceil(percentOffset * (domainPreviewImages.length))-1;
-		console.log(index + " of " + domainPreviewImages.length);
+		//console.log(index + " of " + domainPreviewImages.length);
 		
 		image.attr("src", domainPreviewImages[index].screenshotUrl);
 		image.attr("title", domainPreviewImages[index].url);

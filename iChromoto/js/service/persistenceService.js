@@ -68,6 +68,42 @@ function PersistenceService(){
 				}
 			);
 		});
+		m.migration(4, function(t){
+			console.log("tryin #4");
+			t.executeSql(
+				'ALTER TABLE history ' +
+				'   ADD COLUMN pinned INTEGER DEFAULT 0 '
+			);
+
+			t.executeSql(
+				'CREATE TABLE domain(' +
+				'   domain TEXT PRIMARY KEY, ' +
+				'   pinned INTEGER DEFAULT 0  ) ',
+				null,
+				function(t, results){
+					console.log("inserting domains");
+					t.executeSql(
+						'INSERT INTO domain ' +
+						'SELECT DISTINCT domain, 0 FROM history '
+					);
+				}
+			);
+
+			t.executeSql(
+				'CREATE TABLE fulldomain(' +
+				'   fulldomain TEXT PRIMARY KEY, ' +
+				'   domain TEXT, ' +
+				'   pinned INTEGER DEFAULT 0  ) ',
+				null,
+				function(t, results){
+					console.log("inserting full domains");
+					t.executeSql(
+						'INSERT INTO fulldomain ' +
+						'SELECT DISTINCT fulldomain, domain, 0 FROM history '
+					);
+				}
+			);
+		});
 		m.doIt(function(){
 			inited = true;
 		});
@@ -84,6 +120,22 @@ function PersistenceService(){
 			console.log("removed: " + removed);
 		}
 		return domain.join(".");
+	}
+
+	this.togglePinnedUrl = function(url){
+		db.transaction(function(tx){
+			tx.executeSql("UPDATE history SET pinned = CASE pinned WHEN 1 THEN 0 ELSE 1 END WHERE url = ?", [url]);
+		});
+	}
+
+	this.togglePinnedDomain = function(domain, isFull){
+		db.transaction(function(tx){
+			if(isFull == "true"){
+				tx.executeSql("UPDATE fulldomain SET pinned = CASE pinned WHEN 1 THEN 0 ELSE 1 END WHERE fulldomain = ?", [domain])
+			} else {
+				tx.executeSql("UPDATE domain SET pinned = CASE pinned WHEN 1 THEN 0 ELSE 1 END WHERE domain = ?", [domain])
+			}
+		});
 	}
 
 	this.checkIfExists = function(url, callback){
@@ -169,26 +221,47 @@ function PersistenceService(){
 	}
 
 	this.getHistory = function(groupByFulldomain, callback){
-		// if groupByFulldomain = 0 then we group by domain, otherwise by fulldomain
-		var domain = groupByFulldomain == "true" ? "fulldomain" : "domain";
 
 		db.transaction(function(tx){
-			tx.executeSql(
-				"SELECT h1." + domain + " as domain, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, date(h2.visitdate) as visitdate, h2.totalvisits " +
-				"FROM history as h1 JOIN ( " +
-				"	SELECT h1." + domain + ", max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
-				"	FROM history as h1 " +
-				"	GROUP BY h1." + domain + 
-				") as h2 " +
-				"ON h1." + domain + " = h2." + domain + " " +
-				"ORDER BY h2.visitdate DESC",
-				[],
-				function(tx, result){
-					console.log(result);
-					callback(result);
-				},
-				log
-			);
+			if(groupByFulldomain == "true"){
+				tx.executeSql(
+					"SELECT h1.fulldomain as domain, d.pinned as domainPinned, h1.pinned as urlPinned, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, date(h2.visitdate) as visitdate, h2.totalvisits " +
+					"FROM history as h1 JOIN ( " +
+					"	SELECT h1.fulldomain, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
+					"	FROM history as h1 " +
+					"	GROUP BY h1.fulldomain " +
+					") as h2 " +
+					"ON h1.fulldomain = h2.fulldomain " +
+					"JOIN fulldomain as d " +
+					"   ON h1.fulldomain = d.fulldomain " +
+					"ORDER BY d.pinned DESC, h2.visitdate DESC",
+					[],
+					function(tx, result){
+						console.log(result);
+						callback(result);
+					},
+					log
+				);
+			} else {
+				tx.executeSql(
+					"SELECT h1.domain as domain, d.pinned as domainPinned, h1.pinned as urlPinned, h1.url, h1.screenshotURL, h1.width, h1.height, h1.bookmarked, date(h2.visitdate) as visitdate, h2.totalvisits " +
+					"FROM history as h1 JOIN ( " +
+					"	SELECT h1.domain, max(h1.visitdate) as visitdate, sum(h1.visits) as totalvisits " +
+					"	FROM history as h1 " +
+					"	GROUP BY h1.domain " +
+					") as h2 " +
+					"ON h1.domain = h2.domain " +
+					"JOIN domain as d " +
+					"   ON h1.domain = d.domain " +
+					"ORDER BY d.pinned DESC, h2.visitdate DESC",
+					[],
+					function(tx, result){
+						console.log(result);
+						callback(result);
+					},
+					log
+				);
+			}
 		});
 	}
 

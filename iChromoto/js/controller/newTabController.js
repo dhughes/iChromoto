@@ -11,19 +11,51 @@ function NewTabController(eventify){
 		"/js/service/optionsService.js",
 		"/js/service/uiService.js",
 		"/js/util/backgroundRequestHandler.js",
-		"/js/displaySearch.js"
+		"/js/displaySearch.js",
+		"/js/util/jquery.contextMenu.js"
 	], function(){
 		persistenceService = new PersistenceService();
 		optionsService = new OptionsService();
 		uiService = new UiService(optionsService, persistenceService, new FileService());
 
-		// setup the back button
-		$("#back").click(function(){
-			eventify.raise("uiService_backClicked");
+		uiService.setupForm();
+
+		chrome.management.onInstalled.addListener(function(){
+			eventify.raise("ui_installedApp");
 		});
 
 		eventify.raise("newtab_documentReady");
 	});
+
+	this.togglePinnedUrl = function(state){
+		persistenceService.togglePinnedUrl(state.url);
+	}
+
+	this.togglePinnedDomain = function(state){
+		persistenceService.togglePinnedDomain(state.domain, optionsService.getItem("groupByFulldomain"));
+	}
+	
+	this.addApps = function(state){
+		chrome.management.getAll(function(info){
+			uiService.addApps(info);
+		});
+	}
+
+	this.openApp = function(state){
+		chrome.management.launchApp(state.id);
+	}
+
+	this.appOptions = function(state){
+		chrome.management.get(state.id, function(info){
+			location.href = info.optionsUrl;
+		});
+	}
+
+	this.uninstallApp = function(state){
+		chrome.management.uninstall(state.id, function(){
+			uiService.removeApp(state.id);
+		});
+	}
 
 	this.getHistory = function(state){
 		persistenceService.getHistory(optionsService.getItem("groupByFulldomain"), function(result){
