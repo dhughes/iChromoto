@@ -81,7 +81,6 @@ function BackgroundController(eventify){
 	this.writeImageToDisk = function(state){
 		// we're going to hash the url and use that as the filename
 		var filename = b64_md5(state.tab.url).replace(/\W/g, "_") + ".png";
-
 		chrome.tabs.getSelected(state.windowId, function(tabCheck){
 			if(tabCheck.id = state.tab.id){
 				fileService.saveAsFile(state.thumbnail, filename, function(fileUrl){
@@ -139,16 +138,15 @@ function BackgroundController(eventify){
 	}
 
 	this.persist = function(state){
-
 		if(!state.exists){
-			//console.log("should insert");
+			console.log("should insert");
 			persistenceService.insert(state.tab.url, state.tab.url.split("/")[2], state.tab.title, state.fileUrl, state.width, state.height, state.isBookMarked, state.text, function(){
-				//console.log("inserted!!");
+				console.log("inserted!!");
 			});
 		} else {
-			//console.log("should update");
+			console.log("should update");
 			persistenceService.update(state.tab.url, state.tab.url.split("/")[2], state.tab.title, state.fileUrl, state.width, state.height, state.isBookMarked, state.text, function(){
-				//console.log("updated!!");
+				console.log("updated!!");
 			});
 		}
 	}

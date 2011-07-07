@@ -181,6 +181,27 @@ function PersistenceService(){
 				log,
 				log
 			);
+			// insert the domain
+			tx.executeSql(
+				"INSERT INTO domain (domain, pinned) " +
+				"VALUES (?, 0)",
+				[
+					domain
+				],
+				log,
+				log
+			);
+			// insert the domain
+			tx.executeSql(
+				"INSERT INTO fulldomain (fulldomain, domain, pinned) " +
+				"VALUES (?, ?, 0)",
+				[
+					fulldomain,
+					domain
+				],
+				log,
+				log
+			);
 		});
 
 		callback();
