@@ -255,7 +255,7 @@ function PersistenceService(){
 					"ON h1.fulldomain = h2.fulldomain " +
 					"JOIN fulldomain as d " +
 					"   ON h1.fulldomain = d.fulldomain " +
-					"ORDER BY d.pinned DESC, h2.visitdate DESC",
+					"ORDER BY d.pinned DESC, h2.visitdate DESC, h1.visitdate DESC",
 					[],
 					function(tx, result){
 						console.log(result);
@@ -274,7 +274,7 @@ function PersistenceService(){
 					"ON h1.domain = h2.domain " +
 					"JOIN domain as d " +
 					"   ON h1.domain = d.domain " +
-					"ORDER BY d.pinned DESC, h2.visitdate DESC",
+					"ORDER BY d.pinned DESC, h2.visitdate DESC, h1.visitdate DESC",
 					[],
 					function(tx, result){
 						console.log(result);

@@ -26,6 +26,12 @@ function OptionsController(eventify){
 		if(optionsService.getItem("noSSL") == "true"){
 			$("#noSSL").prop("checked", "checked");
 		}
+		if(optionsService.getItem("showWebStore") == "true"){
+			$("#showWebStore").prop("checked", "checked");
+		}
+		if(optionsService.getItem("showAppsMenuWhenEmpty") == "true"){
+			$("#showAppsMenuWhenEmpty").prop("checked", "checked");
+		}
 
 		$("#domainBlock").val(optionsService.getItem("domainBlock"));
 		$("#regexBlock").val(optionsService.getItem("regexBlock"));
@@ -54,6 +60,14 @@ function OptionsController(eventify){
 			eventify.raise("options_changedSSL", {noSSL: this.checked});
 		});
 
+		$("#showWebStore").click(function(){
+			eventify.raise("options_changedShowWebStore", {showWebStore: this.checked});
+		});
+
+		$("#showAppsMenuWhenEmpty").click(function(){
+			eventify.raise("options_changedShowAppsMenuWhenEmpty", {showAppsMenuWhenEmpty: this.checked});
+		});
+
 		// setup events for Blocks
 		$("#domainBlock").keyup(function(event){
 			eventify.raise("options_changedDomainBlock", {domainBlock: $(this).val()});
@@ -76,6 +90,14 @@ function OptionsController(eventify){
 
 	this.updateNoSSLSetting = function(state){
 		optionsService.setItem("noSSL", state.noSSL);
+	}
+
+	this.updateShowWebStore = function(state){
+		optionsService.setItem("showWebStore", state.showWebStore);
+	}
+
+	this.updateShowAppsMenuWhenEmpty = function(state){
+		optionsService.setItem("showAppsMenuWhenEmpty", state.showAppsMenuWhenEmpty);
 	}
 
 	this.updateThumbnailSettings = function(state){

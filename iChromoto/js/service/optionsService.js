@@ -7,7 +7,9 @@ function OptionsService(){
 		noSSL: false,
 		domainBlock: "",
 		regexBlock: "",
-		groupByFulldomain: true
+		groupByFulldomain: true,
+		showWebStore: false,
+		showAppsMenuWhenEmpty: false
 	};
 
 	// set any items missing in localstorage

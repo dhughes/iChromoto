@@ -2,153 +2,140 @@
 function UiService(optionsService, persistenceService, fileService){
 
 	var body = $("body");
-
 	var previewImages = {};
+	this.dockIsOpen = false;
 
-	this.setupForm = function(){
-		// setup the apps toolbar
-		$("#appsbar .hangtab").mouseover(function(){
-			$(this).parent().animate({
-				top: 0
-			}, "fast");
-		});
-
-		$("#appsbar").mouseleave(function(){
-			var height = -$(this).height() + 5;
-
-			$(this).animate({
-				top: height
-			}, "fast");
-		});
-
-		$(document).mouseleave(function(){
-			if($("#appsbar .appContainer").length){
-				$("#appsbar").queue(function(next){
-					$(".appContainer").hide();
-					$("#appsbar").css("height", 90);
-					$("#appsbar").css("top", -$("#appsbar").height() + 5);
-					next();
-				});
-			}
-		});
-
-		$(document).mouseenter(function(){
-			$(".appContainer").show();
-			$("#appsbar").css("height", "auto");
-			$("#appsbar").css("top", -$("#appsbar").height() + 5);
-		});
-
-		// setup the back button
-		$("#back").click(function(){
-			eventify.raise("uiService_backClicked");
-		});
+	this.removeApps = function(){
+		$(".appContainer, .appPlaceholder").remove();
 	}
 
-	this.removeApp = function(id){
-		$("#" + id).remove();
+	this.addApps = function(apps, showAppsMenuWhenEmpty){
+		$("#appsbar").hide();
+		$("#appsbar .hangtab").hide();
+		$(".appContainer, .appPlaceholder").remove();
 
-		if(!$(".appContainer").length){
-			$("#appsbar").queue(function(next){
-				$("#appsbar").animate({top: -100});
-				next();
-			});
-			$("#appsbar").queue(function(next){
-				$("#appsbar").hide();
-				next();
-			});
-		}
-	}
+		var appsContainer = $("#appsbar .center");
 
-	this.addApps = function(apps){
-		if(apps.length){
-			var appsContainer = $("#appsbar .center");
+		var menu = $("<ul/>");
+		menu.addClass("contextMenu");
+		menu.attr("id", "contextMenu");
 
-			var menu = $("<ul/>");
-			menu.addClass("contextMenu");
-			menu.attr("id", "contextMenu");
+		var item = $("<li />");
+		var link = $("<a />");
+		link.attr("href", "#OpenApp");
+		link.text("Open app");
+		item.append(link);
+		menu.append(item);
 
-			var item = $("<li />");
-			var link = $("<a />");
-			link.attr("href", "#OpenApp");
-			link.text("Open app");
-			item.append(link);
-			menu.append(item);
+		var item = $("<li />");
+		var link = $("<a />");
+		link.attr("href", "#Options");
+		link.text("Options");
+		item.append(link);
+		menu.append(item);
 
-			var item = $("<li />");
-			var link = $("<a />");
-			link.attr("href", "#Options");
-			link.text("Options");
-			item.append(link);
-			menu.append(item);
+		var item = $("<li />");
+		var link = $("<a />");
+		link.attr("href", "#Uninstall");
+		link.text("Uninstall");
+		item.append(link);
+		menu.append(item);
 
-			var item = $("<li />");
-			var link = $("<a />");
-			link.attr("href", "#Uninstall");
-			link.text("Uninstall");
-			item.append(link);
-			menu.append(item);
+		menu.mouseleave(function(){
+			$(this).hide();
+		});
 
-			menu.mouseleave(function(){
-				$(this).hide();
-			});
-			
-			appsContainer.append(menu);
+		appsContainer.append(menu);
 
-			for(var i = 0 ; i < apps.length ; i++){
-				if(apps[i].isApp){
-					var app = apps[i];
+		for(var i = 0 ; i < apps.length ; i++){
+			if(apps[i].isApp){
+				var app = apps[i];
 
-					var bestSize = null;
-					var iconUrl = null;
-					for(var x = 0 ; x < app.icons.length ; x++){
-						if(app.icons[x].size >= 48 && (bestSize == null || app.icons[x].size < bestSize )){
-							bestSize = app.icons[x].size;
-							iconUrl = app.icons[x].url;
-						}
+				var bestSize = null;
+				var iconUrl = null;
+				for(var x = 0 ; x < app.icons.length ; x++){
+					if(app.icons[x].size >= 48 && (bestSize == null || app.icons[x].size < bestSize )){
+						bestSize = app.icons[x].size;
+						iconUrl = app.icons[x].url;
 					}
-
-					var appContainer = $("<div />");
-					appContainer.attr("id", app.id);
-					appContainer.attr("class", "appContainer");
-					appContainer.click(function(event){
-						var id = $(this).attr("id");
-						$("#appsbar").css("top", -$("#appsbar").height()+5);
-						eventify.raise("ui_clickedAppIcon", {id: id});
-					});
-					appContainer.contextMenu({
-						menu: "contextMenu"
-					},
-					function(action, el, pos) {
-						eventify.raise("ui_appContext" + action, {id: $(el).attr("id")});
-					});
-
-					var appIcon = $("<img />");
-					appIcon.attr("src", iconUrl);
-					appIcon.attr("alt", app.name);
-					appIcon.attr("title", app.name);
-
-					var appName = $("<p />");
-					appName.text(app.name);
-
-					appContainer.append(appIcon);
-					appContainer.append(appName);
-
-					appsContainer.append(appContainer);
-					$("#appsbar").show();
-					$("#appsbar .hangtab").show();
 				}
-			}
 
-			$("#appsbar").css("top", -$("#appsbar").height()+5);
-			$("#appsbar").css("display", "block");
+				var appContainer = $("<div />");
+				appContainer.attr("id", app.id);
+				appContainer.attr("class", "appContainer");
+				appContainer.click(function(event){
+					var id = $(this).attr("id");
+					$("#appsbar").css("top", -$("#appsbar").height()+5);
+					eventify.raise("ui_clickedAppIcon", {id: id});
+				});
+				appContainer.contextMenu({
+					menu: "contextMenu"
+				},
+				function(action, el, pos) {
+					eventify.raise("ui_appContext" + action, {id: $(el).attr("id")});
+				});
+
+				var appIcon = $("<img />");
+				appIcon.attr("src", iconUrl);
+				appIcon.attr("alt", app.name);
+				appIcon.attr("title", app.name);
+
+				var appName = $("<p />");
+				appName.text(app.name);
+
+				appContainer.append(appIcon);
+				appContainer.append(appName);
+				
+				appsContainer.append(appContainer);
+			}
 		}
+
+		if(showAppsMenuWhenEmpty == "true"){
+			// if there's nothing in the menu and we're supposed to show it,
+			// put a placeholder to set it to the correct height.
+			if(!$(".appContainer").length){
+				var appPlaceholder = $("<div />");
+				appPlaceholder.attr("class", "appPlaceholder");
+				appsContainer.append(appPlaceholder);
+			}
+		}
+
+		if($(".appContainer, .appPlaceholder").length){
+			$("#appsbar").css("top", -$("#appsbar").height()+5);
+			$("#appsbar").show();
+			$("#appsbar .hangtab").show();
+		}
+
+	}
+
+	this.expandDock = function(){
+		this.dockIsOpen = true;
+
+		$("#appsbar").animate({
+			top: 0
+		}, "fast");
+	}
+
+	this.contractDock = function(){
+		var height = -$("#appsbar").height() + 5;
+		var me = this;
+		
+		$("#appsbar").animate({
+			top: height
+		}, "fast",
+		"swing",
+		function(){
+			me.dockIsOpen = false;
+		});
 	}
 
 	this.showHistory = function(history, mousemoveCallback, mouseresetCallback, clickCallback, doubleClickCallback){
 		// actually remove the preview images from the dom
 		$(".previewContainer, .blockMenu").remove();
 		$("#toolbar").hide();
-		$("#appsbar").show();
+		if($(".appContainer").length){
+			$("#appsbar").show();
+		}
 		previewImages = {};
 		var unpinnedPreviewImages = {};
 		
@@ -290,7 +277,7 @@ function UiService(optionsService, persistenceService, fileService){
 					eventify.raise("ui_toggledPinnedDomain", {domain: domain});
 				})
 				previewContainer.mouseleave(function(){
-					console.log($(this).children(".pin"));
+					//console.log($(this).children(".pin"));
 					$(this).find(".pin").css("display", "");
 				});
 				previewImageContainer.append(pin);
@@ -395,7 +382,7 @@ function UiService(optionsService, persistenceService, fileService){
 				eventify.raise("ui_toggledPinnedUrl", {url: url});
 			})
 			previewContainer.mouseleave(function(){
-				console.log($(this).children(".pin"));
+				//console.log($(this).children(".pin"));
 				$(this).find(".pin").css("display", "");
 			});
 			previewImageContainer.append(pin);
@@ -498,7 +485,7 @@ function UiService(optionsService, persistenceService, fileService){
 				eventify.raise("ui_toggledPinnedUrl", {url: url});
 			})
 			previewContainer.mouseleave(function(){
-				console.log($(this).children(".pin"));
+				//console.log($(this).children(".pin"));
 				$(this).find(".pin").css("display", "");
 			});
 			previewImageContainer.append(pin);

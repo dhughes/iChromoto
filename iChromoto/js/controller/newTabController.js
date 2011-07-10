@@ -2,6 +2,8 @@
 function NewTabController(eventify){
 
 	var clickTimer = null;
+	var dockTimer = null;
+	var resizeTimer = null;
 	var history = null;
 
 	new Requireify().require([
@@ -18,10 +20,32 @@ function NewTabController(eventify){
 		optionsService = new OptionsService();
 		uiService = new UiService(optionsService, persistenceService, new FileService());
 
-		uiService.setupForm();
+		// setup the apps dock
+		$("#appsbar .hangtab, #appsbar").mouseover(function(){
+			eventify.raise("newtab_overDock");
+		});
+		
+		$("#appsbar").mouseleave(function(){
+			eventify.raise("newtab_leftDock");
+		});
+
+		$(window).resize(function(){
+			if(resizeTimer != null){
+				clearTimeout(resizeTimer);
+			}
+			resizeTimer = setTimeout(function(){
+				eventify.raise("newtab_windowResized");
+			},
+			100);
+		})
+
+		// setup the back button
+		$("#back").click(function(){
+			eventify.raise("newtab_backClicked");
+		});
 
 		chrome.management.onInstalled.addListener(function(){
-			eventify.raise("ui_installedApp");
+			eventify.raise("newtab_installedApp");
 		});
 
 		eventify.raise("newtab_documentReady");
@@ -34,28 +58,61 @@ function NewTabController(eventify){
 	this.togglePinnedDomain = function(state){
 		persistenceService.togglePinnedDomain(state.domain, optionsService.getItem("groupByFulldomain"));
 	}
+
+	// apps features
+
+	this.expandDock = function(state){
+		//console.log("expand: dock is open: " + uiService.dockIsOpen);
+		if(!uiService.dockIsOpen){
+			dockTimer = setTimeout(function(){
+				clearTimeout(dockTimer);
+				dockTimer == null;
+				uiService.expandDock();
+			},
+			100);
+		}
+	}
 	
+	this.contractDock = function(state){
+		//console.log("contract: dock is open: " + uiService.dockIsOpen);
+
+		clearTimeout(dockTimer);
+		dockTimer == null;
+		uiService.contractDock();
+	}
+
 	this.addApps = function(state){
+		uiService.removeApps();
 		chrome.management.getAll(function(info){
-			uiService.addApps(info);
+			if(optionsService.getItem("showWebStore") == "true"){
+				info.push({
+					icons: [{size: 153, url: "chrome://theme/IDR_WEBSTORE_ICON"}],
+					isApp: true,
+					name: "Chrome Web Store",
+					optionsUrl: "",
+					id: "appstore"
+				});
+			}
+			uiService.addApps(info, optionsService.getItem("showAppsMenuWhenEmpty"));
 		});
 	}
 
 	this.openApp = function(state){
-		chrome.management.launchApp(state.id);
-	}
-
-	this.appOptions = function(state){
-		chrome.management.get(state.id, function(info){
-			location.href = info.optionsUrl;
-		});
+		if(state.id != "appstore"){
+			chrome.management.launchApp(state.id);
+		} else {
+			location.href = "https://chrome.google.com/webstore";
+		}
 	}
 
 	this.uninstallApp = function(state){
 		chrome.management.uninstall(state.id, function(){
-			uiService.removeApp(state.id);
+			// redraw the apps
+			eventify.raise("newtab_uninstalledApp");
 		});
 	}
+
+	// history features
 
 	this.getHistory = function(state){
 		persistenceService.getHistory(optionsService.getItem("groupByFulldomain"), function(result){

@@ -6,9 +6,9 @@ eventifyConfig = {
 			listeners: [
 				{"newtab_documentReady": "getHistory"},
 				{"newtab_documentReady": "addApps"},
-				{"ui_installedApp": "addApps"},
+				{"newtab_installedApp": "addApps"},
 				{"newtab_gotHistory": "showHistory"},
-				{"uiService_backClicked": "showHistory"},
+				{"newtab_backClicked": "showHistory"},
 				{"uiService_overPreviewImage": "updatePreviewImage"},
 				{"uiService_leftPreviewImage": "resetPreviewImage"},
 				{"uiService_previewImageClicked": "showDomainHistory"},
@@ -19,10 +19,13 @@ eventifyConfig = {
 				{"ui_selectedItemToBlock": "blockItem"},
 				{"ui_clickedAppIcon": "openApp"},
 				{"ui_appContextOpenApp": "openApp"},
-				{"ui_appContextOptions": "appOptions"},
 				{"ui_appContextUninstall": "uninstallApp"},
 				{"ui_toggledPinnedDomain": "togglePinnedDomain"},
-				{"ui_toggledPinnedUrl": "togglePinnedUrl"}
+				{"ui_toggledPinnedUrl": "togglePinnedUrl"},
+				{"newtab_uninstalledApp": "addApps"},
+				{"newtab_overDock": "expandDock"},
+				{"newtab_leftDock": "contractDock"},
+				{"newtab_windowResized": "addApps"}
 
 			]
 		}

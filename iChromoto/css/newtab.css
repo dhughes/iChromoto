@@ -284,8 +284,13 @@ img{
 	z-index: 9999999;
 }
 
+.appPlaceholder{
+	min-height: 80px;
+}
+
 .appContainer{
 	min-height: 80px;
+	max-height: 90px;
 	padding: 5px;
 	width: 85px;
 	display: inline-block;
