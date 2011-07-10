@@ -1,6 +1,6 @@
 {
     "name": "iChromoto",
-    "version": "1.0",
+    "version": "1.1",
     "description": "A nicer, more useful, New Tab page.",
     "permissions": [
 		"tabs",

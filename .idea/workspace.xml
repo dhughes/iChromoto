@@ -130,10 +130,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="newtab.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="newtab.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/iChromoto/html/newtab.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="46" selection-start="150" selection-end="150" vertical-scroll-proportion="0.12034384">
+            <state line="4" column="46" selection-start="150" selection-end="150" vertical-scroll-proportion="-3.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manifest.json" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="19" selection-start="46" selection-end="46" vertical-scroll-proportion="0.05785124">
               <folding />
             </state>
           </provider>
@@ -165,7 +174,6 @@
         <option value="$PROJECT_DIR$/iChromoto/js/controller/searchController.js" />
         <option value="$PROJECT_DIR$/iChromoto/js/service/fileService.js" />
         <option value="$PROJECT_DIR$/iChromoto/css/jquery.contextMenu.css" />
-        <option value="$PROJECT_DIR$/iChromoto/manifest.json" />
         <option value="$PROJECT_DIR$/iChromoto/config/eventify.search.config.js" />
         <option value="$PROJECT_DIR$/iChromoto/js/controller/backgroundController.js" />
         <option value="$PROJECT_DIR$/iChromoto/js/service/persistenceService.js" />
@@ -178,6 +186,7 @@
         <option value="$PROJECT_DIR$/iChromoto/js/controller/optionsController.js" />
         <option value="$PROJECT_DIR$/iChromoto/js/service/uiService.js" />
         <option value="$PROJECT_DIR$/iChromoto/html/newtab.html" />
+        <option value="$PROJECT_DIR$/iChromoto/manifest.json" />
       </list>
     </option>
   </component>
@@ -468,7 +477,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39971244" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17397556" sideWeight="0.74569535" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17397556" sideWeight="0.74569535" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -528,11 +537,6 @@
     <entry file="file://$PROJECT_DIR$/iChromoto/config/eventify.background.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="60" selection-start="767" selection-end="767" vertical-scroll-proportion="0.25035062" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="32" selection-start="649" selection-end="651" vertical-scroll-proportion="0.3919598" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/config/eventify.search.config.js">
@@ -621,7 +625,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/iChromoto/html/newtab.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="46" selection-start="150" selection-end="150" vertical-scroll-proportion="0.12034384">
+        <state line="4" column="46" selection-start="150" selection-end="150" vertical-scroll-proportion="-3.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iChromoto/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="19" selection-start="46" selection-end="46" vertical-scroll-proportion="0.05785124">
           <folding />
         </state>
       </provider>
